@@ -148,20 +148,20 @@ addtask extract_kernel_output after do_compile_kernelmodules
 python __anonymous () {
     if d.getVar('INITRAMFS_IMAGE', True) and \
        d.getVar('INITRAMFS_IMAGE_BUNDLE', True) == '1' and \
-       d.getVar('INITRAMFS_IMAGE_BUNDLE_INSTALL', True) == '1':
+       d.getVar('INITRAMFS_IMAGE_INSTALL', True) == '1':
 
         tfmake = d.getVar('KERNEL_IMAGETYPE_FOR_MAKE', True) or ""
 
         for type in tfmake.split():
             typelower = type.lower()
-            imagedest = d.getVar('KERNEL_IMAGEDEST', True)
-            priority = d.getVar('KERNEL_PRIORITY', True)
-            image_pver = '-initramfs-bundle-${MACHINE}.bin '
 
-            postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + image_pver + priority + ' || true' + '\n'
-            d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
-
-            postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + image_pver + '|| true' + '\n'
-            d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
+            rkis = d.getVar('RDEPENDS_kernel-image', True) or ""
+            rkistr = ' '
+            for rki in rkis.split():
+                if rki != 'kernel-image-' + typelower:
+                    rkistr += ' ' + rki
+            d.setVar('RDEPENDS_kernel-image', rkistr)
+            d.setVar('pkg_postinst_kernel-image-' + typelower, '#!/bin/sh\n')
+            d.setVar('pkg_postrm_kernel-image-' + typelower, '#!/bin/sh\n')
 }
 
