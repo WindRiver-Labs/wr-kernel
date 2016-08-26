@@ -19,11 +19,11 @@ do_install_append() {
 
 do_install_kernel_headers_append() {
 	for f in ${KERNEL_INSTALL_HEADER}; do
-		src_file="${S}/include/uapi/$f"
-		dest_path="${D}${KERNEL_ALT_HEADER_DIR}/include/$f"
+	src_file="${S}/include/$f"
+	dest_path="${D}${KERNEL_ALT_HEADER_DIR}/include/$f"
 
-		if [ -a ${src_file} ]; then
-			install -d ${dest_path%/*}
+	if [ -a ${src_file} ]; then
+		install -d ${dest_path%/*}
 			cp -Rn $src_file ${dest_path%/*}
 			echo $f >> ${D}${KERNEL_ALT_HEADER_DIR}/kernel_install_header.manifest
 		else
