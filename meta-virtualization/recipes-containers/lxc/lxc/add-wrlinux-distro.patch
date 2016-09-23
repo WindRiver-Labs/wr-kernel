@@ -14,31 +14,31 @@ Signed-off-by: He Zhe <zhe.he@windriver.com>
  configure.ac | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/configure.ac b/configure.ac
-index 452b5fa..1384a86 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -33,8 +33,8 @@ AC_GNU_SOURCE
+Index: lxc-2.0.4/configure.ac
+===================================================================
+--- lxc-2.0.4.orig/configure.ac
++++ lxc-2.0.4/configure.ac
+@@ -35,8 +35,8 @@ AC_GNU_SOURCE
  
  # Detect the distribution. This is used for the default configuration and
  # for some distro-specific build options.
 -AC_MSG_CHECKING([host distribution])
--AC_ARG_WITH(distro, AS_HELP_STRING([--with-distro=DISTRO], [Specify the Linux distribution to target: One of redhat, oracle, centos, fedora, suse, gentoo, debian, arch, slackware, paldo, openmandriva or pardus.]))
+-AC_ARG_WITH(distro, AS_HELP_STRING([--with-distro=DISTRO], [Specify the Linux distribution to target: One of redhat, oracle, centos, fedora, suse, gentoo, debian, arch, slackware, plamo, paldo, openmandriva, pardus, sparclinux, altlinux.]))
 +AC_MSG_CHECKING([distribution to build for])
 +AC_ARG_WITH(distro, AS_HELP_STRING([--with-distro=DISTRO], [Specify the Linux distribution to target: One of redhat, oracle, centos, fedora, suse, gentoo, debian, arch, slackware, paldo, openmandriva, pardus and wrlinux.]))
  if type lsb_release >/dev/null 2>&1 && test "z$with_distro" = "z"; then
  	with_distro=`lsb_release -is`
  fi
-@@ -63,7 +63,7 @@ case $with_distro in
+@@ -72,7 +72,7 @@ case $with_distro in
  		distroconf=default.conf.lxcbr
  		distrosysconf="$sysconfdir/default"
  		;;
--	redhat|centos|fedora|oracle|oracleserver|suse|opensuse*)
-+	redhat|centos|fedora|oracle|oracleserver|suse|opensuse*|wrlinux)
+-	redhat|centos|fedora|oracle|oracleserver|sparclinux|altlinux|suse|opensuse*|plamo)
++	redhat|centos|fedora|oracle|oracleserver|sparclinux|altlinux|suse|opensuse*|plamo|wrlinux)
  		distroconf=default.conf.lxcbr
  		distrosysconf="$sysconfdir/sysconfig"
  		;;
-@@ -72,7 +72,7 @@ case $with_distro in
+@@ -81,7 +81,7 @@ case $with_distro in
  		distrosysconf="$sysconfdir/default"
  		;;
  esac
@@ -47,15 +47,12 @@ index 452b5fa..1384a86 100644
  AM_CONDITIONAL([HAVE_DEBIAN], [test x"$with_distro" = "xdebian" -o x"$with_distro" = "xubuntu" -o x"$with_distro" = "xraspbian"])
  AM_CONDITIONAL([DISTRO_UBUNTU], [test "x$with_distro" = "xubuntu"])
  
-@@ -90,7 +90,7 @@ case "$with_init_script" in
- 			fedora|opensuse*)
+@@ -99,7 +99,7 @@ case "$with_init_script" in
+ 			fedora|altlinux|opensuse*)
  				init_script=systemd
  				;;
--			redhat|centos|oracle|oracleserver)
-+			redhat|centos|oracle|oracleserver|wrlinux)
+-			redhat|centos|oracle|oracleserver|sparclinux|plamo)
++			redhat|centos|oracle|oracleserver|sparclinux|plamo|wrlinux)
  				init_script=sysvinit
  				;;
  			debian|raspbian)
--- 
-1.9.1
-

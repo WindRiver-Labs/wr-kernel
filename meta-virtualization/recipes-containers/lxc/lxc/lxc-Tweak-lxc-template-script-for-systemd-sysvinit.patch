@@ -19,10 +19,10 @@ Signed-off-by: Yang Shi <yang.shi@windriver.com>
  templates/lxc-wrlinux.in | 31 ++++++++++++++++++++++++++-----
  1 file changed, 26 insertions(+), 5 deletions(-)
 
-diff --git a/templates/lxc-wrlinux.in b/templates/lxc-wrlinux.in
-index 1ef512b..7775cf2 100644
---- a/templates/lxc-wrlinux.in
-+++ b/templates/lxc-wrlinux.in
+Index: lxc-2.0.4/templates/lxc-wrlinux.in
+===================================================================
+--- lxc-2.0.4.orig/templates/lxc-wrlinux.in
++++ lxc-2.0.4/templates/lxc-wrlinux.in
 @@ -30,8 +30,10 @@ default_profile=default
  
  configure_wrlinux()
@@ -36,7 +36,7 @@ index 1ef512b..7775cf2 100644
  
      # Touch file for fastboot
      dev_path="${rootfs_path}/dev"
-@@ -78,9 +80,11 @@ copy_configuration()
+@@ -78,6 +80,8 @@ copy_configuration()
  
      mkdir -p $config_path
      grep -q "^lxc.rootfs" $config_path/config 2>/dev/null || echo "lxc.rootfs = $rootfs_path" >> $config_path/config
@@ -44,12 +44,8 @@ index 1ef512b..7775cf2 100644
 +    if [ "${init_method}" == "sysvinit" ]; then
      cat <<EOF >> $config_path/config
  lxc.utsname = $name
--lxc.tty = 6 
-+lxc.tty = 6
- lxc.pts = 1024
- lxc.mount = $config_path/fstab
- EOF
-@@ -91,6 +95,21 @@ none            $rootfs_path/sys          sysfs   defaults  0 0
+ lxc.tty = 6
+@@ -91,6 +95,21 @@ none            $rootfs_path/sys
  none            $rootfs_path/dev/pts      devpts  defaults  0 0
  none            $rootfs_path/dev/shm      tmpfs   defaults  0 0
  EOF
@@ -100,6 +96,3 @@ index 1ef512b..7775cf2 100644
          --)             shift 1; break ;;
          *)              break ;;
      esac
--- 
-2.0.2
-

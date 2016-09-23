@@ -1,4 +1,4 @@
-DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
+ESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
 SECTION = "console/utils"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
@@ -18,6 +18,7 @@ RDEPENDS_${PN} = " \
 		perl-module-constant \
 		perl-module-overload \
 		perl-module-exporter-heavy \
+		glibc-utils \
 "
 RDEPENDS_${PN}-ptest += "file make"
 
@@ -26,11 +27,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
 	file://runtest.patch \
 	file://run-ptest \
 	file://automake-ensure-VPATH-builds-correctly.patch \
-	file://add-lxc.rebootsignal.patch \
-	file://document-lxc.rebootsignal.patch \
-	file://lxc-busybox-use-lxc.rebootsignal-SIGTERM.patch \
 	file://lxc-fix-B-S.patch \
-	file://lxc-busybox-add-OpenSSH-support.patch \
 	file://make-some-OpenSSH-tools-optional.patch \
 	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
 	file://lxc-Add-template-script-for-WRLinux.patch \
@@ -39,8 +36,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
 	file://lxc-Tweak-lxc-template-script-for-systemd-sysvinit.patch \
 	"
 
-SRC_URI[md5sum] = "d33c4bd9c57755c0e2b0e2acbc3f171d"
-SRC_URI[sha256sum] = "8f072ea2001bc94389003d82a91902855edf16b609e06f0486a74e4b8973e5dc"
+SRC_URI[md5sum] = "28db4dbacf860ae742138c0ed8dbf14c"
+SRC_URI[sha256sum] = "14c9e699a4bf4e23a420922eb5ae3e163bb151c3d2bf6a3dcbea48c2dd3e9582"
 
 S = "${WORKDIR}/${BPN}-${PV}"
 

@@ -17,21 +17,12 @@ Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
  templates/lxc-busybox.in | 9 +++++++++
  1 file changed, 9 insertions(+)
 
-diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
-index 95961a3..17a3006 100644
---- a/templates/lxc-busybox.in
-+++ b/templates/lxc-busybox.in
-@@ -197,6 +197,8 @@ install_openssh()
-     client_utils="\
-         ssh \
-         scp \
-+        "
-+    client_optional_utils="\
-         sftp \
-         ssh-add \
-         ssh-agent \
-@@ -230,6 +232,13 @@ $rootfs/var/run/sshd \
-         fi
+Index: lxc-2.0.4/templates/lxc-busybox.in
+===================================================================
+--- lxc-2.0.4.orig/templates/lxc-busybox.in
++++ lxc-2.0.4/templates/lxc-busybox.in
+@@ -251,6 +251,13 @@ $rootfs/var/run/sshd \
+         tool_path=`which $bin` && copy_binary $bin
      done
  
 +    for bin in $client_optional_utils; do
@@ -44,6 +35,3 @@ index 95961a3..17a3006 100644
      # add user and group
      cat <<EOF >> $rootfs/etc/passwd
  sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
--- 
-2.1.4
-
