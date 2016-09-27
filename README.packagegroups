@@ -25,6 +25,6 @@ IMAGE_INSTALL_append += "packagegroup-core-kernel-tune"
 
 Then build file system image as usual:
 
-$ make fs
+$ bitbake <image recipe>
 
 That is it.

@@ -13,8 +13,10 @@ This layer:
 
 Dependencies
 ------------
-This layer depends on wr-base, oe-core and meta-networking layer which are
-supplied with Wind River Linux.
+This layer depends on openembedded-core, wr-base, wr-template and
+meta-networking layers which are supplied with Wind River Linux.
+
+This layer recommends the wr-kernel-dl layer.
 
 
 Maintenance
@@ -27,16 +29,14 @@ information on submitting changes.
 Building the wr-kernel layer
 ----------------------------
 This layer and a corresponding BSP layer should be added to bblayers.conf.
-This is done automatically when using the Wind River configure wrapper.
 
 Note: The linux-yocto* recipes are superseded by the linux-windriver*
 recipes when using this layer.  The linux-yocto* recipes are disabled
 to avoid confusion.
 
-If you are not using the Wind River configure wrapper, you will need to
-specify the kernel type to build.  This is done using the kernel type
-enabled variable KTYPE_ENABLED.  The value of this variable is specific
-to the BSP you have configured, see the BSP for a list of supported
+You will need to specify the kernel type to build.  This is done using the
+kernel type enabled variable KTYPE_ENABLED.  The value of this variable is
+specific to the BSP you have configured, see the BSP for a list of supported
 kernel types, TARGET_SUPPORTED_KTYPES.
 
 Alternatively you can disable the machine validation by manually
@@ -49,7 +49,7 @@ recommended configuration.
 
 License
 -------
-Copyright (C) 2012-2013 Wind River Systems, Inc.
+Copyright (C) 2012-2016 Wind River Systems, Inc.
 
 Source code included in the tree for individual recipes is under the LICENSE
 stated in the associated recipe (.bb file) unless otherwise stated.

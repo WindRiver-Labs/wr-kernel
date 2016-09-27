@@ -17,17 +17,3 @@
         clone-or-force-pull-only = false
         path = git/windriver-kernel-tools.git
         url = ../../windriver-kernel-tools
-
-[subgit "downloads"]
-	bare = false
-	clone-or-force-pull-only = false
-	path = downloads
-	url = ../wr-kernel-dl
-	optional = true
-
-[subgit "Documentation.ND"]
-	bare = false
-	clone-or-force-pull-only = false
-	path = Documentation.ND
-	url = ../wr-kernel-docs.ND
-	optional = true
