@@ -1,0 +1,65 @@
+#!/bin/sh
+#
+# Copyright(c) 2012 Wind River Systems, Inc.
+#
+#set -x
+
+SWITCH=br0
+TAP=$1
+# original ethernet interface is default route interface
+ETH0=`ip route list | awk '/^default / { print $5 }'`
+NETMASK=255.255.255.0
+
+if [ -n "$TAP" ];then
+	echo "This script will establish a bridge, which"
+	echo "including a $TAP and $ETH0. Please be sure"
+	echo "that brctl, ifconfig and route can be here"
+
+	ETH0=`route -n | grep -w $ETH0 |awk '{print $8}' |tail -1`
+	if [ -z "$ETH0" ]; then
+		ETH0=`route -n | grep -w $SWITCH |awk '{print $8}' |tail -1`
+		if [ -z "$ETH0" ]; then
+			echo "No active eth interface"
+			exit 1
+		fi
+	fi
+	IP=`ifconfig $ETH0|grep "inet addr"|awk '{print $2}'|sed 's/addr://'`
+	if [ $? -ne 0 ]; then
+		echo "Where is ifconfig? ifconfig failed"
+	fi
+	GATEWAY=`route -n |grep "^0.0.0.0" |awk '{print $2}'|head -1`
+	if [ $? -ne 0 ]; then
+		echo "Where is route? route failed"
+	fi
+
+	if [ -z "$IP" -o -z "$GATEWAY" ]; then
+		echo "Error: No IP configureation on host"
+		exit 1
+	fi
+
+	ifconfig $TAP up
+
+	if [ ! $SWITCH = $ETH0 ] ; then
+		ifconfig $SWITCH down &>/dev/null
+		brctl delbr $SWITCH &>/dev/null
+		if [ $? -ne 0 ]; then
+			echo "Where is brctl? brctl failed"
+		fi
+
+		brctl addbr $SWITCH
+
+		ifconfig $ETH0 0.0.0.0
+		ifconfig $SWITCH $IP up netmask $NETMASK
+		route add default gw $GATEWAY
+
+		brctl addif $SWITCH $ETH0
+	fi
+	brctl addif $SWITCH $TAP
+
+	exit 0
+else
+
+	echo "Error: no interface specified or no utils"
+        echo "usage: qemu-ifup eth2"
+	exit 1
+fi

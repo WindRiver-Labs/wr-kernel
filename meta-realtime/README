@@ -1,0 +1,65 @@
+meta-realtime
+=============
+
+This layer is intended to be a central point for realtime related kernel and
+system development. It also contains utilities, and configuration useful for
+tuning a realtime system. It should be useful directly on top of oe-core.  It
+should be primarily useful to the following groups:
+
+      - Anyone working on Linux kernel realtime development (preempt-rt, 
+        sched_dealine, posix realtime).
+
+      - Anyone experimenting with alternative pairing of general purpose 
+        OSs and realtime OS divisions. Whether that be AMP, userspace RTOS
+        or realtime hypervisors.
+
+      - Anyone working on cpu isolation, system partitioning and related userspace
+        applications.
+
+      - Anyone benchmarking and performance profiling a Linux system.
+
+Dependencies
+------------
+
+This layer depends on the oe-core version supplied with Wind River Linux.
+
+
+Maintenance
+-----------
+This layer is maintained by Wind River Systems, Inc.
+Contact <support@windriver.com> or your support representative for more
+information on submitting changes.
+
+
+Building the meta-realtime layer
+--------------------------------------
+This layer should be added to the wr-kernel/conf/layer.conf file.
+
+
+License
+-------
+Copyright (C) 2014 Wind River Systems, Inc.
+
+Source code included in the tree for individual recipes is under the LICENSE
+stated in the associated recipe (.bb file) unless otherwise stated.
+
+The metadata is under the following license unless otherwise stated.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+

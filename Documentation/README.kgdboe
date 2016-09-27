@@ -1,0 +1,56 @@
+KGDBoE (KGDB over Ethernet)
+---------------------------
+
+KGDBoE is a board specific feature, hence not all boards and configurations
+support this KGDB transport. Refer to the per BSP layer README.hardware
+files for explicit support statements.
+
+Generally speaking, KGDBoE may have issues on SMP systems for most ethernet
+drivers due to preemption problems.
+
+If KGDBoE is not stable on a given SMP board, one of the other KGDB
+transports should be used, or the board can be used in UP mode to 
+increase stability. Alternate KGDB transports include KGDBoC (Console)
+and KGDBoS (serial).
+
+Setup Overview
+--------------
+
+For boards that support KGDBoE, the high level setup and configuration
+are as follows:
+
+1) Loading KGDBoE module manually on target
+
+    # modprobe kgdboe kgdboe=[src-port]@[src-ip]/[dev],[tgt-port]@[tgt-ip]/[tgt-macaddr]
+
+i.e: if the connecting host is 10.10.10.110:
+   
+    # modprobe kgdboe  kgdboe=@/,@10.10.10.110/
+
+2) Using cross-gdb to debug vmlinux on host
+
+    # <arch>-wrs-linux-gnu-gdb <path to>/vmlinux
+       > tar remote udp:<ip>:<port>
+
+i.e. if the target is 10.10.10.120
+
+    > tar remote udp:10.10.10.120:6443
+
+reference: http://www.kernel.org/pub/linux/kernel/people/jwessel/kgdb/ch03s04.html
+
+Stability metric
+----------------
+
+To assess the stability of KGDBoE the metric is typically this:
+
+ # configure kgdboe
+ # connect debugger and set breakpoint at do_fork
+ # c 2000
+
+ # On the target system run:
+
+  while [ 1 ] ; do ls ; done &
+  while [ 1 ] ; do ls ; done &
+  while [ 1 ] ; do ls ; done &
+  while [ 1 ] ; do ls ; done &
+

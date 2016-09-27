@@ -1,0 +1,40 @@
+From abd315a1357ab05e82f0d61ebad666bc0d5378c3 Mon Sep 17 00:00:00 2001
+From: Mike Frysinger <vapier@gentoo.org>
+Date: Sun, 15 Aug 2010 00:03:22 -0400
+Subject: [PATCH] tools/env: use host build flags
+
+Convert the tools/env/Makefile to use the same host tool syntax as the
+other tool subdirs.
+
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+---
+ tools/env/Makefile |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tools/env/Makefile b/tools/env/Makefile
+index 2df631e..f893040 100644
+--- a/tools/env/Makefile
++++ b/tools/env/Makefile
+@@ -26,16 +26,16 @@ include $(TOPDIR)/config.mk
+ SRCS	:= $(obj)crc32.c  fw_env.c  fw_env_main.c
+ HEADERS	:= fw_env.h
+ 
+-CPPFLAGS := -Wall -DUSE_HOSTCC -I$(SRCTREE)/include
++HOSTCFLAGS += -Wall -DUSE_HOSTCC -I$(SRCTREE)/include
+ 
+ ifeq ($(MTD_VERSION),old)
+-CPPFLAGS += -DMTD_OLD
++HOSTCFLAGS += -DMTD_OLD
+ endif
+ 
+ all:	$(obj)fw_printenv
+ 
+ $(obj)fw_printenv:	$(SRCS) $(HEADERS)
+-	$(CROSS_COMPILE)gcc $(CPPFLAGS) $(SRCS) -o $(obj)fw_printenv
++	$(HOSTCC) $(HOSTCFLAGS) $(HOSTLDFLAGS) -o $@ $(SRCS)
+ 
+ clean:
+ 	rm -f $(obj)fw_printenv $(obj)crc32.c
+-- 
+1.7.9.5
+

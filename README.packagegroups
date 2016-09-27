@@ -1,0 +1,30 @@
+Using packagegroups in wr-kernel layer
+
+The wr-kernel layer defines packagegroups for common activities to facilitate
+configuration and package selection:
+
+$ tree recipes-core/packagegroups/
+recipes-core/packagegroups/
+├── packagegroup-core-kdbg-tune.bb
+└── packagegroup-core-kernel-tune.bb
+
+0 directories, 2 files
+
+These packagegroups add a batch of packages/recipes into file system image.
+After a project configured, run the below command to manually include
+preferred packagegroup into image build:
+
+$ echo 'IMAGE_INSTALL_append += "packagegroup-core-kdbg-tune"'>>local.conf
+$ echo 'IMAGE_INSTALL_append += "packagegroup-core-kernel-tune"'>>local.conf
+
+Then check local.conf:
+
+$ tail local.conf -n2
+IMAGE_INSTALL_append += "packagegroup-core-kdbg-tune"
+IMAGE_INSTALL_append += "packagegroup-core-kernel-tune"
+
+Then build file system image as usual:
+
+$ make fs
+
+That is it.

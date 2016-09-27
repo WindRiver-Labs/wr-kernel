@@ -1,0 +1,22 @@
+Index: irqbalance-1.1.0/procinterrupts.c
+===================================================================
+--- irqbalance-1.1.0.orig/procinterrupts.c	2015-12-04 10:17:37.000000000 -0500
++++ irqbalance-1.1.0/procinterrupts.c	2016-09-14 17:57:26.427058636 -0400
+@@ -80,7 +80,7 @@
+ 			rc = 0;
+ 			goto out;
+ 		} else if (!strncmp(ent->d_name, "net", strlen("net"))) {
+-			info->IRQ_TYPE_LEGACY;
++			info->type = IRQ_TYPE_LEGACY;
+ 			info->class = IRQ_ETH;
+ 			rc = 0;
+ 			goto out;
+@@ -94,7 +94,7 @@
+ 
+ out:
+ 	closedir(dirfd);
+-	log(TO_ALL, LOG_DEBUG, "IRQ %s is of type %d and class %d\n", name, info->type, info->class)
++	log(TO_ALL, LOG_DEBUG, "IRQ %s is of type %d and class %d\n", name, info->type, info->class);
+ 	return rc;
+ 
+ }

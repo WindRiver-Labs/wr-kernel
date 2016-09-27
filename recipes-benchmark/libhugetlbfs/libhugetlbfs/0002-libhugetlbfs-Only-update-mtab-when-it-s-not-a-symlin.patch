@@ -1,0 +1,52 @@
+From eb024c0b8d703e67445f8efa3451249cf5e2caad Mon Sep 17 00:00:00 2001
+From: Jianchuan Wang <jianchuan.wang@windriver.com>
+Date: Sat, 11 Oct 2014 10:45:30 +0800
+Subject: [PATCH 2/3] libhugetlbfs: Only update mtab when it's not a symlink to
+ /proc
+
+/etc/mtab can be a symlink to /proc/mounts. In this case there is no need to
+update mtab. Otherwise it would fail with:
+
+    hugeadm:WARNING: Unable to add entry /var/lib/hugetlbfs/pagesize-4MB to /etc/mtab, error: Invalid argument
+
+Signed-off-by: Yang Shi <yang.shi@windriver.com>
+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+---
+ hugeadm.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/hugeadm.c b/hugeadm.c
+index bd0ce87..0af6792 100644
+--- a/hugeadm.c
++++ b/hugeadm.c
+@@ -500,8 +500,27 @@ int ensure_dir(char *path, mode_t mode, uid_t uid, gid_t gid)
+ 	return 0;
+ }
+ 
++#define PROC_DIR "/proc/"
++static int mtab_is_proc(const char *mtab)
++{
++	char path[16];
++
++	if (readlink(mtab, path, sizeof(path)) < 0)
++		return 0;
++
++	if (strncmp(path, PROC_DIR, strlen(PROC_DIR)))
++		return 0;
++
++	return 1;
++}
++
+ int check_if_already_mounted(struct mount_list *list, char *path)
+ {
++
++	/* Only update mtab if it's not linked to any file in /proc direcotry.*/
++	if (mtab_is_proc(MOUNTED))
++		return 1;
++
+ 	while (list) {
+ 		if (!strcmp(list->entry.mnt_dir, path))
+ 			return 1;
+-- 
+1.9.1
+

@@ -1,0 +1,59 @@
+kernel-dev layer
+----------------
+
+This layer should be used when working with a local clone
+of the kernel tree in the git subdirectory. It should be added 
+explicitly to your bblayers.conf and the bbappend updated with the
+path to the local clone of choice.
+
+
+Dependencies
+------------
+This layer depends on the oe-core version supplied with Wind River Linux.  It
+also requires that the wr-kernel layer be present, and assumes you are 
+building a supported BSP layer.
+
+
+Maintenance
+-----------
+This layer is maintained by Wind River Systems, Inc.
+Contact <support@windriver.com> or your support representative for more
+information on submitting changes.
+
+
+Building the kernel-dev layer
+-----------------------------
+This layer, wr-kernel and a corresponding BSP layer should be added to
+bblayers.conf.  This is done automatically when using the Wind River
+configure wrapper.
+
+Note: We don't support to enable the external kernel features when building
+with this layer.
+
+
+License
+-------
+Copyright (C) 2012-2013 Wind River Systems, Inc.
+
+Source code included in the tree for individual recipes is under the LICENSE
+stated in the associated recipe (.bb file) unless otherwise stated.
+
+The metadata is under the following license unless otherwise stated.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

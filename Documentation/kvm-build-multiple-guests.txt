@@ -1,0 +1,111 @@
+Introduction
+============
+Building a system with QEMU/KVM host and guest components typically
+requires multiple build configurations and copying files before deploying
+on a target.  By leveraging the OE/Yocto build system we are able to
+to create a system with QEMU/KVM host/guest components in place in a
+single build.
+
+WRLinux also provides hooks to add a pre existing guest
+kernel/rootfs combination into the host's rootfs
+image. In this way, a non WRLinux guest kernel/rootfs can be added to
+a WRLinux host and used by qemu.
+
+The following document demonstrates how to configure
+and build a system with a KVM host containing guest kernels and
+rootfs images as part of the host's rootfs image.
+
+Some Terminology
+================
+* "host kernel" refers to the linux-windriver kernel that will run on
+  the target board.
+
+* "guest kernel" refers to additional kernels intended to be used as
+  KVM guests, e.g.  used when running qemu.
+
+Multi Kernel Build
+==================
+At configure time, in addition to the usual configure options, you can
+(1) trigger a build of multiple guest kernels or (2) use an existing
+kernel and rootfs as kvm guest images.
+
+1.  --enable-kvm-multi-guest-build=<colon sep. list of guests to build>
+    --with-layer=wr-kvm-compile-guest-kernels
+
+The guests to build are defined by the names of scc files in
+wr-kernel/recipes-kernel/linux/configs (no .scc suffix).
+Example: "x86-kvm-guest" is the key word
+	$ ls configs/
+		x86-kvm-guest1-standard.scc
+		x86-kvm-guest1.scc
+		x86-kvm-guest1.cfg
+
+	--enable-kvm-multi-guest-build=x86-kvm-guest1
+	--with-layer=wr-kvm-compile-guest-kernels
+
+These configure flags will trigger a build of the guest kernel(s) in
+addition to the host kernel.  The guest kernel(s) will use the kernel
+features and configuration defined in the scc files.  Note the file:
+		x86-kvm-guest1-standard.scc
+
+Typically, the system is configured with
+		--enable-kernel=standard
+
+The "standard" keyword is required by the tools.  If you pass in
+"x86-kvm-guest1", the tools will append the currently configured
+kernel type (e.g. "-standard") to the name when looking for the correct .scc
+file.
+
+You can request a build of more than one guest kernel at configure
+time, by providing a colon separated list if key words, e.g."
+	--enable-kvm-multi-guest-build=x86-kvm-guest1:x86-kvm-guest2
+
+In this case, there must be a set of configuration files in the
+configs directory as follows:
+		x86-kvm-guest2-standard.scc
+		x86-kvm-guest2.scc
+		x86-kvm-guest2.cfg
+(See Note #3 below)
+
+The number of kernels to be built is equal to the number of members in
+the ":" separated list passed in by
+	--enable-kvm-multi-guest-build=<guest1:guest2:guestN>
+
+After the host kernel is built, the guest kernels will be built.  The
+ROOTFS_POSTPROCESS_COMMAND ensures that the resulting guest kernels
+are copied to the host's rootfs.
+
+Here is an example configure command:
+	configure --enable-rootfs=glibc_small --enable-kernel=standard \
+	--with-template=feature/kvm --enable-board=x86-64-kvm-guest \
+	--with-layer=wr-kvm-compile-guest-kernels \
+	--enable-kvm-multi-guest-build=x86-kvm-guest1
+This configure line will generate a glibc small rootfs with the
+standard kernel, using the kvm feature set for the board x86-64-kvm-guest.
+In addition, the compile-guest-kernels "layer" specification will be
+used, and it will enable a build of one guest kernel.  The guest
+kernel will be built with the specific details defined in
+wr-kernel/recipes-kernel/linux/configs/x86-kvm-guest1.scc.
+
+2. Use guest kernel and rootfs from another build or distribution:
+	--with-kvm-guest-kernel=<ABS path to kernel .bin file>
+	--with-kvm-guest-img=<ABS path to rootfs image/initramfs>
+	--with-layer=wr-kvm-binary-guest-images
+
+These flags tell the build to copy an existing kernel and rootfs image
+onto the hosts' rootfs.  The kernel/rootfs combo can be part of another
+build or non WRLinux build.
+
+See configure --help for details.
+
+Notes
+=====
+1. The configs directory is used only if the build is configured with:
+	--enable-kvm-multi-guest-build
+2. If --enable-kvm-multi-guest-build is used, local.conf will contain
+MULTI_KVM_GUEST_TRIGGER = "1" and this triggers the
+linux-windriver_*.bb file to include the kvm-guest-kernel.inc.  If it
+is not present, guest multi build will not take place.
+3. The details of the scc file are beyond the scope of this document.
+scc files follow the WRLinux BSP/Yocto format. Please see the example
+scc files in wr-kernel/recipes-kernel/linux/configs.

@@ -1,0 +1,26 @@
+
+                                  qoriq-debug
+                                  -----------
+
+1. Introduction
+---------------
+QorIQ Debug is a Linux kernel driver which allows access to the hardware
+debug IP of the QoriQ P4080, P3041 and the P5020 devices from user-space
+applications.
+
+2. Usage
+------
+Use the following option to the configure command:
+ --with-template=feature/qoriq-debug
+
+This will include the qoriq-debug kernel module in the root filesystem.
+
+3. Installation
+---------------
+This template will include qoriq-debug in the root filesystem. No other configuration
+steps are required. You will find the kernel modules installed in /lib/modules/<kernel-version>/extra/ in the root filesystem.
+
+4. Reference
+------------
+Please refer to the "QorIQ Debug User Guide" in the Freescale SDK 1.3 for more
+details about how to use this package.

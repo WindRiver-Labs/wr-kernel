@@ -1,0 +1,149 @@
+#!/bin/bash
+
+#  (kquery), (query a Wind River Linux kernel layer) 
+
+#  Copyright (c) 2010-2012 Wind River Systems, Inc.
+
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License version 2 as
+#  published by the Free Software Foundation.
+
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#  See the GNU General Public License for more details.
+
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+# For consistent behaviour with "grep -w"
+LC_ALL=C
+export LC_ALL
+
+usage()
+{
+cat <<EOF
+
+ kquery -h <query> <kernel-cache repo>
+
+ 
+  <kernel-cache repo>: path to the kernel-cache repository
+  <query>:
+     cfg: list the configuration features supported by the kernel
+     features-optional: list the optional features supported by the kernel
+     features: list the non-optional, and hence, non selectable features
+               supported by the kernel
+
+   -h :  this message
+
+EOF
+}
+
+GIT=`which git`
+
+REPO_BRANCH=WRLINUX_8_0_HEAD
+
+# command line processing
+search_dirs=
+vlevel=0
+while [ $# -gt 0 ]; do
+    case "$1" in
+	-v|--v)
+		verbose=t
+		vlevel=`expr $vlevel + 1`
+		;;
+	-h|--h|--help) 
+	        usage
+                exit;
+                ;;
+        -*)   
+                usage
+                exit
+               ;;
+	*)
+	        break
+		;;
+    esac
+    shift
+done
+
+if [ -z "$1" ]; then
+    usage
+    exit
+fi
+
+query=$1
+query_target=$2
+
+proddir=`readlink -f "${BASH_SOURCE%/*}/.."`
+def_rc_file=$proddir/git/.kern-features.rc
+
+if [ x"$CONFIGURE_TMPDIR" != x ] ; then
+       def_rc_file=$CONFIGURE_TMPDIR/.kern-features.rc
+fi
+
+if [ -d "$query_target" ]; then 
+    repo_name=`basename $query_target`
+    repo_path=`dirname $query_target`
+fi
+
+if [ -z "$KERNEL_RC_FILE" ]; then
+    KERNEL_RC_FILE=kern-features.rc
+fi
+
+KERNEL_TMP_RC_FILE=`mktemp`
+
+cleanup_rc_file()
+{
+    rm -f $KERNEL_TMP_RC_FILE
+}
+
+# extract kernel config file from the tree.
+if [ -n "$repo_name" ]; then
+    (
+	cd $query_target;
+	$GIT show $REPO_BRANCH:$KERNEL_RC_FILE > $KERNEL_TMP_RC_FILE
+	if [ $? -ne 0 ]; then
+	    echo "ERROR: could not extract kernel config options from $query_target"
+	    cleanup_rc_file
+	    exit 1
+	fi
+    )
+else
+	if [ -f "$query_target" ]; then
+		cp -f $query_target $KERNEL_TMP_RC_FILE
+	else
+		if [ -n "$def_rc_file" ]; then
+			cp -f $def_rc_file $KERNEL_TMP_RC_FILE
+		fi
+	fi
+fi
+
+if [ $? -eq 1 ]; then
+    cleanup_rc_file
+    exit 1
+fi
+
+repo_config="$KERNEL_TMP_RC_FILE"
+
+if [ -n "$verbose" ]; then
+    echo "Querying $repo_config"
+fi
+
+case "$query" in
+    features)
+	$GIT config -f $repo_config --get-all kernel-options.feature
+        ;;
+    features-optional)
+	$GIT config -f $repo_config --get-all kernel-options.feature-optional
+        ;;
+    cfg)
+	$GIT config -f $repo_config --get-all kernel-options.config
+        ;;
+    *)
+	echo "WARNING: unkown query '$query'"
+	;;
+esac
+
+cleanup_rc_file

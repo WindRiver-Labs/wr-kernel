@@ -1,0 +1,28 @@
+Upstream-Status: Pending
+
+Subject: Makefile: support cross compilation
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 671e0f4..8a0202f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,8 +1,8 @@
+ # go on and adjust here if you don't like those flags
+-CFLAGS=-Os -fomit-frame-pointer -s -pipe
++CFLAGS ?= -Os -fomit-frame-pointer -s -pipe
+ #CFLAGS=-Wall -g -fomit-frame-pointer -s -pipe -DDEBUG
+-LDFLAGS=-lm
+-CC=gcc
++LDFLAGS ?= -lm
++CC ?= gcc
+ # likewise, if you want to change the destination prefix
+ DESTDIR=
+ DESTPREFIX=/usr/local
+-- 
+2.8.1
+

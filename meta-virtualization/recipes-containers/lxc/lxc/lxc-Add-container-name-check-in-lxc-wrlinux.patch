@@ -1,0 +1,32 @@
+From 44ebd2540fb6a02d0c86c8ec48095f7425483aaf Mon Sep 17 00:00:00 2001
+From: Yang Shi <yang.shi@windriver.com>
+Date: Wed, 17 Jul 2013 11:10:17 -0700
+Subject: [PATCH] lxc: Add container name check in lxc-wrlinux
+
+Since container name is mandatory parameter for the script, add sanity
+check for the container name.
+
+Signed-off-by: Yang Shi <yang.shi@windriver.com>
+---
+ templates/lxc-wrlinux.in |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
+
+diff --git a/templates/lxc-wrlinux.in b/templates/lxc-wrlinux.in
+index 7a82ba2..1ef512b 100644
+--- a/templates/lxc-wrlinux.in
++++ b/templates/lxc-wrlinux.in
+@@ -138,6 +138,11 @@ do
+     esac
+ done
+ 
++if [ -z "$name" ]; then
++    echo "The container name is null, please rerun the script with a valid container name"
++    exit 1
++fi
++
+ if [ -z "$path" ]; then
+     path=$default_path
+ fi
+-- 
+1.7.5.4
+

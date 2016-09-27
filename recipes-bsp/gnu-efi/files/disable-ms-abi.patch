@@ -1,0 +1,55 @@
+From 33e5b75f3478a2d542ffa0930ba8cb6cef5bd1b8 Mon Sep 17 00:00:00 2001
+From: Lans Zhang <jia.zhang@windriver.com>
+Date: Fri, 29 May 2015 05:28:19 +0000
+Subject: [PATCH] Remove MicroSoft ABI support
+
+The IDP version defines the GNU_EFI_USE_MS_ABI flag in gnu-efi,
+which causes a compile error with uefi_call_wrapper().  This is
+because gnu-efi and efitools must share the same usage for
+uefi_call_wrapper().
+
+The original import from IDP used two different sources: wr-srm
+and wr-idp-devkit, as follows:
+
+    * wr-idp: WRLINUX_5_0_1_HEAD
+    * From wr-idp/layers/wr-srm to wr-security:
+      <snip>
+      - recipes-uefi/efitools:       316d4a1 -> recipes-uefi/efitools
+      - recipes-uefi/grub-efi:       537dbb5 -> recipes-uefi/grub-efi
+
+    * From wr-idp/wr-idp-devkit to wr-security:
+      <snip>
+      - recipes-uefi/gnu-efi:         ef7d009 -> recipes-uefi/gnu-efi
+      - recipes-uefi/grub-efi:        16c2f52 -> recipes-uefi/grub-efi
+
+grub-efi seems to have come from wr-idp-devkit, and that version
+was not compatible with efitools from wr-srm.
+
+Remove the definition from gnu-efi, so that the same value is
+used for all components.
+
+Upstream-Status: Inappropriate [configuration]
+
+Signed-off-by: T.O. Radzy Radzykewycz <radzy@windriver.com>
+Signed-off-by: Lans Zhang <jia.zhang@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ Make.defaults | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Make.defaults b/Make.defaults
+index f9c20f3..da94dae 100644
+--- a/Make.defaults
++++ b/Make.defaults
+@@ -108,7 +108,7 @@ ifeq ($(ARCH),x86_64)
+                                  && [ $(GCCMINOR) -ge "7" ] ) ) \
+                           && echo 1)
+   ifeq ($(GCCNEWENOUGH),1)
+-    CPPFLAGS += -DGNU_EFI_USE_MS_ABI -maccumulate-outgoing-args --std=c11
++    CPPFLAGS += -maccumulate-outgoing-args --std=c11
+   endif
+ 
+   CFLAGS += -mno-red-zone -mno-mmx -mno-sse
+-- 
+1.9.1
+

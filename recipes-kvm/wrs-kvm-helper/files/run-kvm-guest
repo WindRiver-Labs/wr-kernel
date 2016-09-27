@@ -1,0 +1,161 @@
+#!/bin/sh
+#
+# Copyright(c) 2012 Wind River Systems, Inc.
+#
+#set -x
+
+guest=""
+
+kernel_image=""
+rootfs_image=""
+extra_qemu_opts=""
+extra_guest_opts=""
+
+qemu_cmd=""
+qemu_command_args="
+        -enable-kvm
+        -nographic
+        -net user -net nic,model=e1000
+        -m 512 -smp 2
+        -append"
+
+guest_cmdline="console=ttyS0 root=/dev/vda ip=dhcp"
+
+qemu_mach_args=""
+rootfs_arg=" -drive if=virtio,file="
+kernel_arg=" -kernel "
+
+function help_() {
+	cat <<EOF
+
+Usage: `basename $0` options
+
+options:
+  --help
+    Display this help menu
+
+  --kernel=[path to guest kernel image]
+    Specify kernel image of KVM guest
+    Eg: --kernel=/images/kernel
+
+  --rootfs=[path to guest rootfs image]
+    Specify rootfs image for KVM guest
+    Eg: --rootfs=/images/rootfs
+
+Optional, below two options are optional:
+
+  --extra_qemu_opts=[extra options for QEMU]
+    Specified options will be passed to qemu as is
+    Eg: --extra_qemu_opts="-monitor tcp::54321,server,nowait"
+
+  --extra_guest_opts=[extra kernel options for guest]
+    Specified options will be passed to guest kernel as is
+    Eg: --extra_guest_opts="mem=64m noacpi"
+
+Eg: `basename $0` --kernel=./kernel --rootfs=./rootfs.img
+
+EOF
+}
+
+function get_options() {
+	p=""
+	while [ "$1" != "" ]
+	do
+		if [ "x$1" == "x--help" ] ; then
+			help_
+			exit 0
+		fi
+
+		v=`expr "$1" : '--kernel=\(.*\)'`
+		if [ "x$v" != "x" ] ; then
+			kernel_image=`readlink -f $v`
+		fi
+
+		v=`expr "$1" : '--rootfs=\(.*\)'`
+		if [ "x$v" != "x" ] ; then
+			rootfs_image=`readlink -f $v`
+		fi
+
+		v=`expr "$1" : '--extra_qemu_opts=\(.*\)'`
+		if [ "x$v" != "x" ] ; then
+			extra_qemu_opts="$v"
+			p="q"
+		fi
+
+		v=`expr "$1" : '--extra_guest_opts=\(.*\)'`
+		if [ "x$v" != "x" ] ; then
+			extra_guest_opts="$v"
+			p="g"
+		fi
+
+		v=`expr "$1" : '--\(.*\)'`
+		if [ "x$v" == "x" ] ; then
+			if [ "x$p" == "xq" ] ; then
+				extra_qemu_opts="$extra_qemu_opts $1"
+			fi
+			if [ "x$p" == "xg" ] ; then
+				extra_guest_opts="$extra_guest_opts $1"
+			fi
+		fi
+
+		shift
+	done
+}
+
+function get_arch() {
+	is_x86=`grep -i vmx /proc/cpuinfo 2>&1`;
+	if [ "x$is_x86" != "x" ] ; then
+		guest="x86"
+	fi
+
+	is_e500mc=`grep -i e500mc /proc/cpuinfo 2>&1`;
+	if [ "x$is_e500mc" != "x" ] ; then
+		guest="e500mc"
+	fi
+
+	is_e500=`grep -i e500v /proc/cpuinfo 2>&1`;
+	if [ "x$is_e500" != "x" ] ; then
+		guest="e500"
+	fi
+}
+
+if [ $# == 0 ] ; then
+	help_;
+	exit 0;
+fi
+
+get_options $@
+
+get_arch
+
+case $guest in
+"x86")
+	qemu_cmd="qemu-system-x86_64 "
+	break;;
+
+"e500")
+	qemu_cmd="qemu-system-ppc "
+	qemu_mach_args=" -M mpc8544ds"
+	break;;
+
+"e500mc")
+	qemu_cmd="qemu-system-ppc "
+	qemu_mach_args=" -M mpc8544ds"
+	break;;
+*)
+	echo "unsupported guest type [ $guest ]"
+	exit 1
+	;;
+esac
+
+echo "--- run $guest guest ---"
+
+kernel_arg="$kernel_arg$kernel_image"
+rootfs_arg="$rootfs_arg$rootfs_image"
+
+echo $qemu_cmd $qemu_mach_args $rootfs_arg $kernel_arg $qemu_command_args \"$guest_cmdline $extra_guest_opts\" $extra_qemu_opts
+
+$qemu_cmd $qemu_mach_args $rootfs_arg $kernel_arg $qemu_command_args "$guest_cmdline $extra_guest_opts" $extra_qemu_opts
+
+exit 0;
+

@@ -1,0 +1,10 @@
+Intel Performance Counter Monitors
+
+Certain features are only available on certain core types, please
+check the Intel documentation for the package.
+
+Collisions with other use of the counter hardware is detected by
+examining the counter registers for non-zero when the pcm.x command is
+started.  It will give you the opportunity to zero the counters and start
+again.  Beware though that other software packages using the counters may
+not be so nice, and may bulldoze use of the counters causing bad results.

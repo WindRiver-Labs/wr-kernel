@@ -1,0 +1,3 @@
+This directory holds local clones of kernel git trees. These
+clones are suitable for use with the kernel-dev recipes, and must
+be manually maintained.

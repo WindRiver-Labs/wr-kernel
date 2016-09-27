@@ -1,0 +1,39 @@
+From a862e6d1953056d9b251c2d1e2607dd7dfdc13c7 Mon Sep 17 00:00:00 2001
+From: Jianchuan Wang <jianchuan.wang@windriver.com>
+Date: Sat, 11 Oct 2014 13:40:27 +0800
+Subject: [PATCH 1/3] add i586 support
+
+There is compile error when ARCH is equal to i586 and is set by external.
+
+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+---
+ Makefile | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index 9393682..73f5a37 100644
+--- a/Makefile
++++ b/Makefile
+@@ -76,6 +76,11 @@ CC32 = $(CC)
+ ELF32 = elf_i386
+ TMPLIB32 = lib
+ else
++ifeq ($(ARCH),i586)
++CC32 = $(CC)
++ELF32 = elf_i386
++TMPLIB32 = lib
++else
+ ifeq ($(ARCH),x86_64)
+ CC64 = $(CC) -m64
+ ELF64 = elf_x86_64
+@@ -116,6 +121,7 @@ endif
+ endif
+ endif
+ endif
++endif
+ 
+ ifdef CC32
+ OBJDIRS += obj32
+-- 
+1.9.1
+

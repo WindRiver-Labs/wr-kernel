@@ -1,0 +1,33 @@
+[subgit "kernel-4.8.x"]
+	bare = true
+	clone-or-force-pull-only = true
+	path = git/kernel-4.8.x.git
+	url = ../../kernel-4.8.x
+	optional = true
+
+[subgit "kernel-cache"]
+        bare = true
+        clone-or-force-pull-only = false
+        path = git/kernel-cache.git
+        url = ../../kernel-cache
+	optional = true
+
+[subgit "windriver-kernel-tools"]
+        bare = true
+        clone-or-force-pull-only = false
+        path = git/windriver-kernel-tools.git
+        url = ../../windriver-kernel-tools
+
+[subgit "downloads"]
+	bare = false
+	clone-or-force-pull-only = false
+	path = downloads
+	url = ../wr-kernel-dl
+	optional = true
+
+[subgit "Documentation.ND"]
+	bare = false
+	clone-or-force-pull-only = false
+	path = Documentation.ND
+	url = ../wr-kernel-docs.ND
+	optional = true

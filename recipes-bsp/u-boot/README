@@ -1,0 +1,20 @@
+DISCLAIMER: There is no warranty of fitness for any purpose or support
+provided by Wind River for rebuilt u-boot. You can rebuild the bootloader,
+but you are responsible for the safety of your board and any issues that
+the rebuilt u-boot causes.
+
+1. Building u-boot:
+==================
+Using the following steps to build the u-boot:
+  a) cd <your project dir>/build
+  b) make virtual/bootloader
+
+2. Rebuilding u-boot:
+=====================
+If you modify the u-boot source codes, run the following commands to
+rebuild the u-boot:
+  a) cd <your project dir>/build
+  b) make bitbake-shell
+  c) bitbake -f -c compile virtual/bootloader
+
+
