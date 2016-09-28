@@ -36,3 +36,5 @@ SRC_URI = "git://${KSRC_linux_windriver_4_8};protocol=file;branch=${KBRANCH};nam
 	   git://${KSRC_kernel_cache};protocol=file;type=kmeta;name=meta;branch=WRLINUX_9_0_HEAD;destsuffix=${KMETA} \
 	   ${EXTRA_KERNEL_SRC_URI} \
 	   "
+
+include qemu.inc

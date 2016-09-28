@@ -1,0 +1,5 @@
+TARGET_QEMU_BIN="qemu-system-aarch64"
+TARGET_QEMU_OPTS="-machine virt -cpu cortex-a57"
+TARGET_QEMU_MEM="128"
+TARGET_QEMU_KERNEL="Image"
+TARGET_QEMU_BOOT_CONSOLE="ttyAMA0,38400"

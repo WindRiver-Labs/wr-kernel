@@ -1,0 +1,74 @@
+        QEMU-arma9 Board Support Package
+
+1. About this document
+======================
+
+This document describes the hardware specific information. Please refer
+to README for common and non-hardware specific information.
+
+
+2. Overview
+===========
+
+This BSP supports simulated QEMU targets. The simulated machine/board
+type by QEMU is:
+
+	* qemu-system-arm -M vexpress-a9
+
+
+3. Hardware Boards
+==================
+
+The features listed below are taken from the QEMU user's manual.
+
+3.1 Simulated QEMU machine
+==========================
+
+The simulated vexpress-a9 QEMU machine has the following features.
+
+3.1.1 Board features
+--------------------
+
+	* Cortex-A9 MPCore CPU
+	* SMP is supported with up to 4 CPUs.
+	* ARM AMBA Generic/Distributed Interrupt Controller
+	* Four PL011 UARTs
+	* SMC 91c111 Ethernet adapter
+	* PCI host bridge
+	* PCI OHCI USB controller
+	* PL031 RTC
+
+3.1.2 Supported Features
+------------------------
+
+	* Cortex-A9 MPCore CPU
+	* SMP is supported with up to 4 CPUs.
+	* ARM AMBA Generic/Distributed Interrupt Controller
+	* Four PL011 UARTs
+	* SMC 91c111 Ethernet adapter
+	* PCI host bridge
+	* PCI OHCI USB controller
+	* PL031 RTC
+
+
+3.1.3 Unsupported Features:
+---------------------------
+
+        x hard disk
+
+3.1.4 Hardware Description
+--------------------------
+
+For more hardware details please consider this online documentation:
+
+http://qemu.weilnetz.de/qemu-doc.html
+http://wiki.qemu.org/Documentation/HardwareManuals
+
+
+3.1.5 Target Notes
+------------------
+
+The simulated target is provided by qemu-system-arm. For detailed
+features that are simulated by qemu, check QEMU's user manual:
+
+http://wiki.qemu.org/Manual

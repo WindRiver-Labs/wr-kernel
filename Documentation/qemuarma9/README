@@ -1,0 +1,207 @@
+        QEMU-arma9 Board Support Package
+
+1. About this document
+======================
+
+This document contains common and non-hardware specific information.
+Please refer to README.hardware for hardware specific information.
+
+Dependencies
+------------
+This layer depends on the oe-core version supplied with Wind River
+Linux and the wr-kernel layer.
+
+
+Maintenance
+-----------
+This layer is maintained by Wind River Systems, Inc.
+Contact <support@windriver.com> or your support representative for more
+information on submitting changes.
+
+
+Building the qemuarma9 layer
+----------------------------
+This layer and the wr-kernel layer should be added to bblayers.conf. This
+is done automatically when using the Wind River configure wrapper.
+
+
+License
+-------
+Copyright (C) 2012-2013 Wind River Systems, Inc.
+
+Source code included in the tree for individual recipes is under the LICENSE
+stated in the associated recipe (.bb file) unless otherwise stated.
+
+The metadata is under the following license unless otherwise stated.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+2. Board Specific Patches
+=========================
+
+To get a list of patches applied to the kernel specific to this BSP,
+along with patch descriptions, use git to see what changed on the default
+kernel (git whatchanged <kernel_type>..<bsp_name>). For example:
+
+  # cd build/linux-windriver-<version>/linux
+  # git whatchanged standard/base..HEAD
+
+
+3. Boot Instructions
+====================
+
+Since this BSP is targeted at a QEMU simulated board, run the command
+below in the project directory to load the BSP on top of QEMU:
+
+$ make start-target
+
+
+3.1 NFS Root File System
+------------------------
+
+By default, the guest system running in QEMU runs NFS rootfs.
+
+3.2 RAM Root File System (initramfs)
+---------------------------------
+
+3.2.1 Create the initrd image
+-----------------------------
+
+Build the gzip'd initramfs image with:
+
+$ make bbs
+$ bitbake wrlinux-image-initramfs
+$ exit
+
+The resulting file can be found at export/qemuarma9-wrlinux-image-glibc-small-standard-dist.cpio.gz
+
+
+3.2.2 Deployment
+----------------
+
+Pass the run-time option "-initrd" in TARGET_QEMU_OPTS to use the
+initramfs image as a ram disk, as shown in the example below.
+
+And use the 'root=/dev/ram' kernel command line option. For example, run the following 
+command in the project directory to run the guest in QEMU using initrd:
+
+$ make start-target \
+TARGET_QEMU_OPTS="-initrd `pwd`/export/qemuarma9-wrlinux-image-glibc-small-standard-dist.cpio.gz -M vexpress-a9" \
+TARGET_QEMU_KERNEL_OPTS=root=/dev/ram
+
+Note: We need to make use of TARGET_QEMU_OPTS to specify '-M <machine_type>' option
+for qemu. 
+
+
+3.3 Virtual Disk on Qemu
+------------------------
+
+3.3.1 Create virtual disk image
+-------------------------------
+
+Add the '--enable-bootimage=ext3' option when configuring the project with the
+configure command as shown below:
+
+.../wrlinux/configure --enable-bootimage=ext3 \
+--enable-kernel=standard \
+--enable-rootfs=glibc_small --enable-board=qemuarma9 ...
+
+Or:
+
+Edit <projectDir>/local.conf manually, ensuring that it contains the line below:
+
+IMAGE_FSTYPES += "ext3"
+
+Then run 'make fs' again. After 'make fs' completes, you can find the virtual
+disk image at:
+
+<projectDir>/images/qemuarma9-wrlinux-image-<rootfs type>-<kernel type>-dist.ext3
+
+Eg. qemuarma9-wrlinux-image-glibc-small-standard-dist.ext3
+
+3.3.2 Deployment
+------------------
+
+Run the below command to get MMC disk image bootup.
+
+$ make start-target TOPTS="-disk $PWD/export/qemuarma9-wrlinux-image-glibc-small-standard-dist.ext3" \
+	TARGET_VIRT_BOOT_TYPE=disk
+
+
+3.4 Simics Support
+------------------
+
+The BSP can run on Simics Cortex-A9 model.
+
+For booting on Simics, dtb file has to be specified explicitly in the
+"make start-simics" commandline by the below:
+TARGET_SIMICS_DTB=vexpress-v2p-ca9.dtb
+
+3.4.1 MMC Root
+--------------
+
+Simics Cortex-A9 model supports MMC card.
+
+Assuming the ext3 rootfs image has been generated by follwoing the above
+instructions.
+
+For example, run the following command in the project directory:
+$ make start-simics TOPTS="-disk $PWD/export/qemuarma9-wrlinux-image-glibc-small-standard-dist.ext3" \
+	TARGET_VIRT_BOOT_TYPE=disk
+	TARGET_VIRT_BOOT_TYPE=disk TARGET_SIMICS_DTB=vexpress-v2p-ca9.dtb
+
+An alternative approach to generate virtual disk image and bootup commands
+are the below:
+
+$ dd if=/dev/zero of=bootdisk bs=1 count=0 seek=3892314112
+$ ./scripts/fakestart.sh ./host-cross/sbin/mke2fs -F -t ext3 \
+   -d export/dist bootdisk
+$ make start-simics TOPTS="-disk bootdisk" TARGET_VIRT_BOOT_TYPE=disk \
+	TARGET_SIMICS_DTB=vexpress-v2p-ca9.dtb
+
+3.4.2 Initramfs
+---------------
+
+For the initramfs boot, the below can be done:
+
+The following command will generate a rootfs from export/dist
+$ make start-simics TARGET_SIMICS_BUILD_INITRD_PLUS=1
+The following command will start the system from the initramfs
+$ make start-simics TARGET_VIRT_BOOT_TYPE=custom \
+        TARGET_VIRT_IP=none \
+        TARGET_SIMICS_INITRD=`pwd`/initrd \
+        EX_TARGET_SIMICS_KERNEL_OPTS="rdinit=/sbin/init" \
+        TARGET_SIMICS_DTB=vexpress-v2p-ca9.dtb
+
+3.4.3 Known Issue
+-----------------
+
+Due to Simics model emulation issue, NFS root filesystem runs very slowly.
+
+
+4. Target Notes
+===============
+
+4.1 OProfile
+============
+This BSP does not have a usable implementation of hardware performance
+counters, so OProfile must be used in timer mode. If you are
+using OProfile you need to add "oprofile.timer=1" to your kernel boot
+options.

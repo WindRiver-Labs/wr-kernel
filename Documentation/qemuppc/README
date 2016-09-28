@@ -1,0 +1,176 @@
+        QEMU-ppc Board Support Package
+
+1. About this document
+======================
+
+This document contains common and non-hardware specific information.
+Please refer to README.hardware for hardware specific information.
+
+Dependencies
+------------
+This layer depends on the oe-core version supplied with Wind River
+Linux and the wr-kernel layer.
+
+
+Maintenance
+-----------
+This layer is maintained by Wind River Systems, Inc.
+Contact <support@windriver.com> or your support representative for more
+information on submitting changes.
+
+
+Building the qemuppc layer
+--------------------------
+This layer and the wr-kernel layer should be added to bblayers.conf. This
+is done automatically when using the Wind River configure wrapper.
+
+
+License
+-------
+Copyright (C) 2012-2013 Wind River Systems, Inc.
+
+Source code included in the tree for individual recipes is under the LICENSE
+stated in the associated recipe (.bb file) unless otherwise stated.
+
+The metadata is under the following license unless otherwise stated.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+2. Board Specific Patches
+=========================
+
+To get a list of patches applied to the kernel specific to this BSP,
+along with patch descriptions, use git to see what changed on the default
+kernel (git whatchanged <kernel_type>..<bsp_name>). For example:
+
+  # cd build/linux-windriver-<version>/linux
+  # git whatchanged standard/base..HEAD
+
+
+3. Boot Instructions
+====================
+
+Since this BSP is targeted to a QEMU simulated board, run the command
+below in the project directory to load the BSP on top of QEMU:
+
+$ make start-target
+
+
+3.1 NFS Root File System
+------------------------
+
+By default, the guest system running in QEMU uses NFS rootfs.
+
+3.2 RAM Root File System (initramfs)
+---------------------------------
+
+3.2.1 Create the initrd image
+-----------------------------
+
+Build the gzip'd initramfs image with:
+
+$ make bbs
+$ bitbake wrlinux-image-initramfs
+$ exit
+
+The resulting file can be found at export/qemuppc-wrlinux-image-glibc-small-standard-dist.cpio.gz
+
+
+3.2.2 Deployment
+----------------
+
+Pass the run-time option "-initrd" in TARGET_QEMU_OPTS to use the
+initramfs image as a ram disk, as shown in the example below.
+
+Also use the 'root=/dev/ram' kernel command line option. For example, 
+run the following command in the project directory to run the guest in
+QEMU using initrd:
+
+$ make start-target \
+TARGET_QEMU_OPTS="-initrd `pwd`/export/qemuppc-wrlinux-image-glibc-small-standard-dist.cpio.gz -M mac99" \
+TARGET_QEMU_KERNEL_OPTS=root=/dev/ram
+
+Note: We need to make use of TARGET_QEMU_OPTS to specify the '-M <machine_type>' 
+option for qemu. 
+
+
+
+3.3 Virtual disk in QEMU
+------------------------
+
+3.3.1 Create virtual disk image
+-------------------------------
+
+Add the '--enable-bootimage=ext3' option when configuring the project with the 
+configure command as shown below:
+
+.../wrlinux/configure --enable-bootimage=ext3 \
+--enable-kernel=standard+cfg/virtio.scc \
+--enable-rootfs=glibc_small --enable-board=qemuppc ...
+
+Or:
+
+Edit <project-dir>/local.conf manually, ensuring that it contains the line below:
+
+IMAGE_FSTYPES += "ext3"
+
+Then run 'make fs' again. After 'make fs' completes, the virtual disk image will 
+be located at:
+
+<projectDir>/images/qemuppc-wrlinux-image-<rootfs type>-<kernel type>-dist.ext3
+
+Eg. qemuppc-wrlinux-image-glibc-small-standard-dist.ext3
+
+3.3.2 Related kernel options
+----------------------------
+
+Make sure the project is configured with:
+
+	--enable-kernel=standard+cfg/virtio.scc
+
+
+3.3.3 Deployment
+----------------
+
+Pass the command line option TARGET_QEMU_OPTS to QEMU as shown:
+
+ -drive if=virtio,file=<path to virtual disk image file>
+
+And pass kernel command line options to the guest as shown:
+
+ root=/dev/vda
+
+For example, run the following command in the project directory:
+
+$ make start-target \
+TARGET_QEMU_OPTS=" -drive
+if=virtio,file=`pwd`/export/qemuppc-wrlinux-image-glibc-small-standard-dist.ext3 -M mac99" \
+TARGET_QEMU_KERNEL_OPTS=root=/dev/vda
+
+
+4. Target Notes
+===============
+
+4.1 OProfile
+============
+This BSP does not have a usable implementation of hardware performance
+counters, so OProfile must be used in timer mode. If you are
+using OProfile you need to add "oprofile.timer=1" to your kernel boot
+options.

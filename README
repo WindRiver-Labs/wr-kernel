@@ -9,6 +9,8 @@ This layer:
   - contains task sets and configurations related to the kernel
   - includes the nested 'kernel-dev' layer for local clones and externalsrc
     development
+  - includes a series of basic QEMU BSPs.  For more information, see the
+    Documentation/<machine> directory.
 
 
 Dependencies
