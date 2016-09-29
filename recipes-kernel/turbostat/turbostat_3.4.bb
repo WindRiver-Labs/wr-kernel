@@ -38,12 +38,13 @@ EXTRA_OEMAKE = '\
 #
 do_configure_prepend() {
 	mkdir -p ${S}
+	cp -r ${STAGING_KERNEL_DIR}/arch/x86/include/asm/msr-index.h ${S}
 	cp -r ${STAGING_KERNEL_DIR}/tools/power/x86/turbostat/* ${S}
 	cp -r ${STAGING_KERNEL_DIR}/COPYING ${S}
 }
 
 do_compile() {
-	sed -i 's#MSRHEADER#\<asm\/msr.h\>#' turbostat.c
+	sed -i 's#MSRHEADER#"msr-index.h"#' turbostat.c
 	oe_runmake STAGING_KERNEL_DIR=${STAGING_KERNEL_DIR}
 }
 
