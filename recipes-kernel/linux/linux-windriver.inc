@@ -80,7 +80,7 @@ FILES_kernel-extra-headers-misc = "${@get_kernel_install_header(d)}"
 #
 
 do_install_kernel_headers() {
-	echo -e "install header list:\n\t${KERNEL_INSTALL_HEADER}\n"
+	printf "install header list:\n\t${KERNEL_INSTALL_HEADER}\n\n"
 
 	# for each file/dir in global variable, copy to ${D}
 	for f in ${KERNEL_INSTALL_HEADER}; do
@@ -98,7 +98,7 @@ do_install_kernel_headers() {
 			cp -Rn ${src_file} `dirname $dest_path`
 
 			echo "from: ${src_file}"
-			echo -e "  to: ${dest_path}\n"
+			printf "  to: ${dest_path}\n\n"
 		else
 			echo "WARNING: header file not found: ${f}"
 		fi
