@@ -43,6 +43,12 @@ SRC_URI[libvirt.sha256sum] = "93a23c44eb431da46c9458f95a66e29c9b98e37515d44b6be0
 
 inherit autotools gettext update-rc.d pkgconfig ptest systemd
 
+# Let aclocal use the relative path for the m4 file rather than the
+# absolute since tar has a lot of m4 files, otherwise there might
+# be an "Argument list too long" error when it is built in a long/deep
+# directory.
+acpaths = "-I ./m4"
+
 CACHED_CONFIGUREVARS += "\
 ac_cv_path_XMLLINT=/usr/bin/xmllint \
 ac_cv_path_XMLCATLOG=/usr/bin/xmlcatalog \
