@@ -1,4 +1,4 @@
-DESCRIPTION = "A toolkit to interact with the virtualization capabilities of recent versions of Linux." 
+DESCRIPTION = "A toolkit to interact with the virtualization capabilities of recent versions of Linux."
 HOMEPAGE = "http://libvirt.org"
 LICENSE = "LGPLv2.1 & LGPLv2.1+ & GPLv2+"
 LICENSE_${PN}-ptest = "GPLv2+ & LGPLv2.1"
@@ -36,6 +36,7 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
            file://0001-nsslinktest-also-build-virAtomic.h.patch \
            file://0001-ptest-add-missing-test_helper-files.patch \
            file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
+           file://0001-qemu-Let-empty-default-VNC-password-work-as-document.patch \
           "
 
 SRC_URI[libvirt.md5sum] = "f9dc1e63d559eca50ae0ee798a4c6c6d"
