@@ -5,6 +5,8 @@ DESCRIPTION = "A basic initramfs image that boots to a console."
 
 LICENSE = "MIT"
 
+IMAGE_INSTALL = "packagegroup-core-boot-wrs shadow"
+
 inherit core-image
 
 # allows root login without a password
@@ -20,7 +22,6 @@ export IMAGE_BASENAME = "wrlinux-image-initramfs"
 
 IMAGE_ROOTFS_SIZE = "8192"
 
-IMAGE_INSTALL = "packagegroup-core-boot-wrs shadow"
 # Add any additional packages requested by IMAGE_INSTALL_INITRAMFS
 IMAGE_INSTALL += "${IMAGE_INSTALL_INITRAMFS}"
 
