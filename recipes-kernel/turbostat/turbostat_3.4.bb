@@ -45,6 +45,7 @@ do_configure_prepend() {
 
 do_compile() {
 	sed -i 's#MSRHEADER#"msr-index.h"#' turbostat.c
+	sed -i 's#\$(CC) \$(CFLAGS) \$< -o \$(BUILD_OUTPUT)/\$@#\$(CC) \$(CFLAGS) \$(LDFLAGS) \$< -o \$(BUILD_OUTPUT)/\$@#' Makefile
 	oe_runmake STAGING_KERNEL_DIR=${STAGING_KERNEL_DIR}
 }
 
