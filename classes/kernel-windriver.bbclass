@@ -126,59 +126,6 @@ do_cscope() {
 do_cscope[nostamp] = "1"
 addtask cscope after do_configure
 
-# Complete the linking of the kernel provided files into the export
-# directory.
-python do_deploy_post() {
-    if not bb.data.inherits_class('wrlcompat', d):
-        return
-    deploy = d.getVar('DEPLOY_DIR_IMAGE', True)
-    wrlexport = d.getVar('WRL_EXPORT_DIR', True)
-    machine = d.getVar('MACHINE', True)
-    suffix = "-WR%s%s_%s" % (
-        d.getVar('WRLINUX_VERSION', True),
-        d.getVar('WRLINUX_EXTRAVERSION', True),
-        d.getVar('LINUX_KERNEL_TYPE', True))
-
-    for type in (d.getVar('KERNEL_IMAGETYPES', True) or "").split():
-        target = "%s/%s-%s.bin" % (deploy, type, machine)
-        link = "%s/%s-%s%s" % (wrlexport, machine, type, suffix)
-        wrl_symlink(target,link,d)
-
-    target = "%s/System.map-%s" % (deploy, machine)
-    link = "%s/%s-System.map%s" % (wrlexport, machine, suffix)
-    wrl_symlink(target,link,d)
-
-    target = "%s/vmlinux-symbols-%s" % (deploy, machine)
-    link = "%s/%s-vmlinux-symbols%s" % (wrlexport, machine, suffix)
-    wrl_symlink(target,link,d)
-
-    # Can't use MODULE_TARBALL_BASENAME, as the PKGR is evaluated incorrectly
-    # target = "%s/%s" % (deploy, d.getVar('MODULE_TARBALL_BASE_NAME', True))
-    target = "%s/%s" % (deploy, d.getVar("MODULE_TARBALL_SYMLINK_NAME", True))
-    link = "%s/%s-linux-modules-WR%s%s_%s.tgz" % (
-        wrlexport, machine,
-        d.getVar('WRLINUX_VERSION', True),
-        d.getVar('WRLINUX_EXTRAVERSION', True),
-        d.getVar('LINUX_KERNEL_TYPE', True))
-    wrl_symlink(target,link,d)
-
-    kerneldevtree = d.getVar('KERNEL_DEVICETREE', True) or ""
-    kernel_image_type = d.getVar('KERNEL_IMAGETYPE', True) or "uImage"
-    for dtbfile in kerneldevtree.split():
-        kernelimgbasename = kernel_image_type + "-"
-        dtbname = kernelimgbasename + dtbfile
-        target = "%s/%s" % (deploy, dtbname)
-        link = "%s/%s-%s%s" % (wrlexport, machine, dtbfile, suffix)
-        try:
-            os.remove(link)
-        except:
-            pass
-        wrl_symlink(target, link, d)
-}
-
-
-addtask deploy_post after do_deploy before do_build
-
 # sanity updates. The do_package_qa_prepend and vmlinux sanity
 # flags allow a 64 bit kernel + modules to be packaged against a
 # 32 bit userspace. If external modules are built, they must supply
@@ -219,16 +166,3 @@ python do_package_qa_prepend () {
 }
 INSANE_SKIP_kernel-vmlinux += "arch"
 INSANE_SKIP_kernel-image += "arch"
-
-do_populate_sysroot[postfuncs] += "wrl_populate_sysroot_parameters"
-do_populate_sysroot_setscene[postfuncs] += "wrl_populate_sysroot_parameters"
-python wrl_populate_sysroot_parameters () {
-    if not bb.data.inherits_class('wrlcompat', d):
-        return
-    wrlexport = d.getVar('WRL_EXPORT_DIR', True)
-    f = open(os.path.join(wrlexport + "config.para"), 'w')
-    f.write('##########linux-windriver\n')
-    f.write('KERNEL_DEVICETREE=\"%s\"\n' % (d.getVar('KERNEL_DEVICETREE', True) or ""))
-    f.write('EXTRA_IMAGECMD_jffs2=\"%s\"\n' % (d.getVar('EXTRA_IMAGECMD_jffs2', True) or ""))
-    f.close()
-}
