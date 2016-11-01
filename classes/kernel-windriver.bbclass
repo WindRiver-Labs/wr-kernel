@@ -96,16 +96,17 @@ python do_gconfig() {
 do_gconfig[nostamp] = "1"
 addtask gconfig after do_configure
 
+config_stamp_clean_helper[vardepsexclude] = "DATETIME"
 def config_stamp_clean_helper(d):
-    import bb, re, string, sys, commands
+    import bb, re, string, sys, subprocess
 
     # invalidate stamps for force a rebuild. This is temporary.
     cmd = d.expand("rm -f ${STAMP}.do_compile*; rm -f ${STAMP}.do_install*; rm -f ${STAMP}.do_configure*")
-    ret, result = commands.getstatusoutput("%s" % (cmd))
+    ret, result = subprocess.getstatusoutput("%s" % (cmd))
 
     # save the .config
     cmd = d.expand("cp -f ${B}/.config ${WORKDIR}/${PV}-${PR}-${MACHINE}-${DATETIME}")
-    ret, result = commands.getstatusoutput("%s" % (cmd))
+    ret, result = subprocess.getstatusoutput("%s" % (cmd))
 
     bb.plain(d.expand("Saving .config to ${WORKDIR}/${PV}-${PR}-${MACHINE}-${DATETIME}"))
 
