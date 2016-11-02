@@ -12,6 +12,7 @@ PV = "0.0.1"
 SRC_URI = " http://ozlabs.org/~cyeoh/cma/cma-test-20110718.tgz \
 file://0001-Fixed-unsafe-compare-and-readme.patch \
 file://0001-cma-test-respect-CC-and-CFLAGS-if-set-in-environment.patch \
+file://0001-Add-LDFLAGS-to-pass-external-ld-flags.patch \
 "
 SRC_URI[md5sum] = "cd447413534b6d0ef82f772c4f125af0"
 SRC_URI[sha256sum] = "09512c74be88479b5adddbd765eca28a1b59203ea4a4f6937c9c352b311c1d84"
