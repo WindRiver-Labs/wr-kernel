@@ -17,8 +17,6 @@ RDEPENDS_kernel-base = ""
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-windriver"
 PREFERRED_VERSION_linux-windriver ?= "4.8%"
 
-EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
-
 TARGET_QEMU_BIN="qemu-system-mips64"
 TARGET_QEMU_OPTS="-M malta -bios mips_bios.bin"
 TARGET_QEMU_KERNEL="vmlinux"

@@ -18,8 +18,6 @@ RDEPENDS_kernel-base = ""
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-windriver"
 PREFERRED_VERSION_linux-windriver ?= "4.8%"
 
-EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
-
 TARGET_QEMU_BIN="qemu-system-arm"
 TARGET_QEMU_OPTS="-M vexpress-a9"
 TARGET_QEMU_MEM="128"

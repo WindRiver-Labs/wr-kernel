@@ -15,8 +15,6 @@ RDEPENDS_kernel-base = ""
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-windriver"
 PREFERRED_VERSION_linux-windriver ?= "4.8%"
 
-EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
-
 # multilib support
 MULTILIBS ?= "multilib:lib32"
 DEFAULTTUNE_virtclass-multilib-lib32 ?= "x86"

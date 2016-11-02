@@ -15,9 +15,6 @@ RDEPENDS_kernel-base = ""
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-windriver"
 PREFERRED_VERSION_linux-windriver ?= "4.8%"
 
-EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
-
-
 TARGET_QEMU_BIN = "qemu-system-i386"
 TARGET_QEMU_KERNEL="bzImage"
 TARGET_QEMU_KERNEL_OPTS="clock=pit oprofile.timer=1"
