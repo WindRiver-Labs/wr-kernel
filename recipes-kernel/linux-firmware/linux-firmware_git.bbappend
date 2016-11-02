@@ -12,9 +12,11 @@ do_install_append() {
 	install -d ${D}${FWPATH}/bnx2
 	install -m 0644 iwlwifi-5000-5.ucode ${D}${FWPATH}
 	install -m 0644 iwlwifi-8000C-13.ucode ${D}${FWPATH}
+	install -m 0644 iwlwifi-7265D-22.ucode ${D}${FWPATH}
 	install -d ${D}${FWPATH}/intel
 	install -m 0644 intel/ibt-hw-37.7.10-fw-1.80.2.3.d.bseq ${D}${FWPATH}/intel
 	install -m 0644 intel/ibt-hw-37.8.10-fw-1.10.2.27.d.bseq ${D}${FWPATH}/intel
+	install -m 0644 intel/ibt-hw-37.8.10-fw-1.10.3.11.e.bseq ${D}${FWPATH}/intel
 	install -m 0644 intel/ibt-11-5.sfi ${D}${FWPATH}/intel
 	install -m 0644 bnx2x/bnx2x-e2-7.2.16.0.fw ${D}${FWPATH}/bnx2x
 	install -m 0644 bnx2x/bnx2x-e2-7.8.17.0.fw ${D}${FWPATH}/bnx2x
@@ -31,8 +33,10 @@ do_install_append() {
 PACKAGES =+ "\
 	     ${PN}-iwlwifi-5000-5 \
 	     ${PN}-iwlwifi-8000c-13 \
+	     ${PN}-iwlwifi-7265d-22 \
 	     ${PN}-ibt-hw-37.7.10-fw-1.80.2.3.d \
 	     ${PN}-ibt-hw-37.8.10-fw-1.10.2.27.d \
+	     ${PN}-ibt-hw-37.8.10-fw-1.10.3.11.e \
 	     ${PN}-ibt-11-5 \
 	     ${PN}-bnx2x-e2-7.2.16.0 \
 	     ${PN}-bnx2x-e2-7.8.17.0 \
@@ -82,6 +86,11 @@ FILES_${PN}-iwlwifi-8000c-13 = " \
   ${FWPATH}/iwlwifi-8000C-13.ucode \
 "
 
+RDEPENDS_${PN}-iwlwifi-7265d-22 = "${PN}-iwlwifi-license"
+FILES_${PN}-iwlwifi-7265d-22 = " \
+  ${FWPATH}/iwlwifi-7265D-22.ucode \
+"
+
 RDEPENDS_${PN}-ibt-hw-37.7.10-fw-1.80.2.3.d = "${PN}-iwlwifi-license"
 FILES_${PN}-ibt-hw-37.7.10-fw-1.80.2.3.d = " \
   ${FWPATH}/intel/ibt-hw-37.7.10-fw-1.80.2.3.d.bseq \
@@ -90,6 +99,11 @@ FILES_${PN}-ibt-hw-37.7.10-fw-1.80.2.3.d = " \
 RDEPENDS_${PN}-ibt-hw-37.8.10-fw-1.10.2.27.d = "${PN}-iwlwifi-license"
 FILES_${PN}-ibt-hw-37.8.10-fw-1.10.2.27.d = " \
   ${FWPATH}/intel/ibt-hw-37.8.10-fw-1.10.2.27.d.bseq \
+"
+
+RDEPENDS_${PN}-ibt-hw-37.8.10-fw-1.10.3.11.e = "${PN}-iwlwifi-license"
+FILES_${PN}-ibt-hw-37.8.10-fw-1.10.3.11.e = " \
+  ${FWPATH}/intel/ibt-hw-37.8.10-fw-1.10.3.11.e.bseq \
 "
 
 RDEPENDS_${PN}-ibt-11-5 = "${PN}-iwlwifi-license"
