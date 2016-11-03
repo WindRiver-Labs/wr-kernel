@@ -66,22 +66,14 @@ do_module() {
 }
 addtask do_module after do_compile
 
-config_stamp_clean_helper[vardepsexclude] = "DATETIME"
-def config_stamp_clean_helper(d):
-    import bb, re, string, sys, subprocess
-
-    # invalidate stamps for force a rebuild. This is temporary.
-    cmd = d.expand("rm -f ${STAMP}.do_compile*; rm -f ${STAMP}.do_install*; rm -f ${STAMP}.do_configure*")
-    ret, result = subprocess.getstatusoutput("%s" % (cmd))
+do_menuconfig[vardepsexclude] += "DATETIME"
+python do_menuconfig_append() {
+    import subprocess
 
     # save the .config
-    cmd = d.expand("cp -f ${B}/.config ${WORKDIR}/${PV}-${PR}-${MACHINE}-${DATETIME}")
+    cmd = d.expand("cp -f ${B}/.config ${WORKDIR}/config-${PV}-${PR}-${MACHINE}-${DATETIME}")
     ret, result = subprocess.getstatusoutput("%s" % (cmd))
-
-    bb.plain(d.expand("Saving .config to ${WORKDIR}/${PV}-${PR}-${MACHINE}-${DATETIME}"))
-
-python do_menuconfig_append() {
-    config_stamp_clean_helper(d)
+    bb.plain(d.expand("Saving .config to ${WORKDIR}/config-${PV}-${PR}-${MACHINE}-${DATETIME}"))
 }
 
 # sanity updates. The do_package_qa_prepend and vmlinux sanity
