@@ -13,14 +13,8 @@ ROOT_FLASH_SIZE = "280"
 # Don't include kernels in standard images
 RDEPENDS_kernel-base = ""
 
-# Use a common kernel recipe for all QEMU machines
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-windriver"
 PREFERRED_VERSION_linux-windriver ?= "4.8%"
 
-TARGET_QEMU_BIN="qemu-system-mips64"
-TARGET_QEMU_OPTS="-M malta -bios mips_bios.bin"
-TARGET_QEMU_KERNEL="vmlinux"
-TARGET_QEMU_CPU="MIPS64R2-generic"
-TARGET_QEMU_MEM="256"
-TARGET_QEMU_KERNEL_OPTS=" oprofile.timer=1"
-TARGET_QEMU_BOOT_CONSOLE="ttyS0,115200"
+QB_OPT_APPEND_append = " -bios mips_bios.bin"
+QB_CPU = "-cpu MIPS64R2-generic"
+QB_KERNEL_CMDLINE_APPEND_append = " oprofile.timer=1"
