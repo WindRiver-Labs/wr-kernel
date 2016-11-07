@@ -66,36 +66,6 @@ do_module() {
 }
 addtask do_module after do_compile
 
-kern_config_helper() {
-	export DISPLAY="${DISPLAY}"
-	# Pickup host's pkg-config
-	export PATH=/usr/bin:/bin:$PATH
-	for f in PKG_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_DISABLE_UNINSTALLED PKG_CONFIG_SYSROOT_DIR PKG_CONFIG_LIBDIR ; do
-		unset $f
-	done
-	if [ -f /usr/lib/x86_64-linux-gnu/pkgconfig/QtCore.pc ] ; then
-		export PKG_CONFIG_LIBDIR=/usr/lib/x86_64-linux-gnu/pkgconfig
-	fi
-	bbnote Starting: make ${kern_config_type}
-	oe_runmake ${kern_config_type}
-}
-
-python do_xconfig() {
-    d.setVar('kern_config_type', 'xconfig')
-    res = bb.build.exec_func("kern_config_helper", d)
-    config_stamp_clean_helper(d)
-}
-do_xconfig[nostamp] = "1"
-addtask xconfig after do_configure
-
-python do_gconfig() {
-    d.setVar('kern_config_type', 'gconfig')
-    res = bb.build.exec_func("kern_config_helper", d)
-    config_stamp_clean_helper(d)
-}
-do_gconfig[nostamp] = "1"
-addtask gconfig after do_configure
-
 config_stamp_clean_helper[vardepsexclude] = "DATETIME"
 def config_stamp_clean_helper(d):
     import bb, re, string, sys, subprocess
@@ -113,19 +83,6 @@ def config_stamp_clean_helper(d):
 python do_menuconfig_append() {
     config_stamp_clean_helper(d)
 }
-
-python do_oldconfig() {
-    oe_terminal("make oldconfig", '${PN} Configuration', d)
-    config_stamp_clean_helper(d)
-}
-do_oldconfig[nostamp] = "1"
-addtask oldconfig after do_configure
-
-do_cscope() {
-	oe_runmake cscope
-}
-do_cscope[nostamp] = "1"
-addtask cscope after do_configure
 
 # sanity updates. The do_package_qa_prepend and vmlinux sanity
 # flags allow a 64 bit kernel + modules to be packaged against a
