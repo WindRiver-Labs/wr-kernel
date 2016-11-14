@@ -6,8 +6,6 @@ LICENSE = "Apache-2.0"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=235c3195a3968524dc1524b4ebea0c0e"
 
-COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
-
 DEPENDS = "protobuf protobuf-c-native"
 
 SRC_URI[md5sum] = "e544249c329391fff512c3874895cfbe"

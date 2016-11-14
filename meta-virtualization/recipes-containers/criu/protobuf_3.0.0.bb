@@ -15,10 +15,9 @@ SRC_URI[md5sum] = "d4f6ca65aadc6310b3872ee421e79fa6"
 SRC_URI[sha256sum] = "f5b3563f118f1d3d6e001705fa7082e8fc3bda50038ac3dff787650795734146"
 SRC_URI = "https://github.com/google/protobuf/archive/v3.0.0.tar.gz;downloadfilename=protobuf-3.0.0.tar.gz\
 	        file://protobuf-allow-running-python-scripts-from-anywhere.patch \
+	        file://0001-Adding-missing-generic-gcc-64-bit-atomicops.patch \
 	        file://run-ptest \
             "
-
-COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
 
 EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
 inherit autotools setuptools ptest
