@@ -23,7 +23,7 @@ EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
 inherit autotools setuptools ptest
 
 DEPENDS += "protobuf-native"
-RDEPENDS_${PN}-ptest = "bash"
+RDEPENDS_${PN}-ptest = "bash python-six"
 
 PYTHON_SRC_DIR="python"
 TEST_SRC_DIR="examples"
