@@ -7,16 +7,11 @@
 The criu template enables CRIU (Checkpoint Restore in Userspace) support in
 the kernel and adds the criu package to the image.
 
-Note that the criu package supports x86_64, aarch64, ARMv6 and ARMv7
-architectures by far.
+Note that the criu package supports x86_64 only so far due to an upstream
+limitation.
 
 2. Usage
 --------
-
-For building CRIU for ARM BSPs, CRIU_BUILD_ARCH must be defined in BSP template
-or local.conf file. The valid value may be "armv6" or "armv7".
-
-For building CRIU for x86-64/aarch64 BSPs, no further action is required.
 
 The recipe will throw warning info about supported architectures, if it is being
 built on supported arch, just ignore the warning.
