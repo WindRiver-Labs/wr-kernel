@@ -61,23 +61,28 @@ To get a list of patches applied to the kernel specific to this BSP,
 along with patch descriptions, use git to see what changed on the default
 kernel (git whatchanged <kernel_type>..<bsp_name>). For example:
 
-  # cd build/linux-windriver-<version>/linux
+  # cd tmp/work-shared/<machine>/kernel-source
   # git whatchanged standard/base..HEAD
 
 
 3. Boot Instructions
 ====================
 
-Since this BSP is targeted to a QEMU simulated board, run the command
-below in the project directory to load the BSP on top of QEMU:
+Since this BSP is targeted at a QEMU simulated board, run the command
+"runqemu qemumips64 slirp nographic" to load the BSP on top of QEMU.
 
-$ make start-target
-
-
-3.1 NFS Root File System
+3.1 Ext4 Root File System
 ------------------------
 
-By default, the guest system running in QEMU uses NFS rootfs.
+By default, the guest system running in QEMU uses Ext4 rootfs.
+
+3.2 NFS Root File System
+
+When compiling copmpletely, run the command below in the project directory
+to load the BSP on top of QEMU:
+
+$  bitbake meta-ide-support
+$  runqemu qemumips64 slirp nographic nfs
 
 3.2 RAM Root File System (initramfs)
 ---------------------------------
@@ -85,83 +90,21 @@ By default, the guest system running in QEMU uses NFS rootfs.
 3.2.1 Create the initrd image
 -----------------------------
 
-Build the gzip'ed initramfs image with:
+Build the gzip'd initramfs image with:
 
-$ make bbs
 $ bitbake wrlinux-image-initramfs
-$ exit
 
-The resulting file can be found at export/qemumips64-wrlinux-image-glibc-small-standard-dist.cpio.gz.
-
+The resulting file can be found at 
+tmp/deploy/images/qemumips64/wrlinux-image-initramfs-<machine>.cpio.gz
 
 3.2.2 Deployment
 ----------------
 
-Pass the run-time option "-initrd" in TARGET_QEMU_OPTS to use the
-initramfs image as a ram disk, as shown in the example below.
+After compiling copmpletely, using the command: 
 
-Also, use the 'root=/dev/ram' kernel command line option. For example, run the following
-command in the project directory to run the guest in QEMU using initrd:
+$  runqemu qemumips64 slirp nographic cpio.gz
 
-$ make start-target \
-TARGET_QEMU_OPTS="-initrd `pwd`/export/qemumips64-wrlinux-image-glibc-small-standard-dist.cpio.gz -M malta -bios mips_bios.bin" \
-TARGET_QEMU_KERNEL_OPTS=root=/dev/ram
-
-Note, We need to make use of TARGET_QEMU_OPTS to specify '-M <machine_type>' option 
-for qemu. 
-
-
-3.3 Virtual disk in QEMU
-------------------------
-
-3.3.1 Create virtual disk image
--------------------------------
-
-Add the '--enable-bootimage=ext3' option when configuring the project with the 
-configure command as shown below:
-
-.../wrlinux/configure --enable-bootimage=ext3 \
---enable-kernel=standard+cfg/virtio.scc \
---enable-rootfs=glibc_small --enable-board=qemumips64 ...
-
-Or:
-
-edit <project-dir>/local.conf manually, ensuring that it contains the line below:
-
-IMAGE_FSTYPES += "ext3"
-
-Then run 'make fs' again. After 'make fs' completes, the virtual disk image will 
-be located at:
-
-<projectDir>/images/qemumips64-wrlinux-image-<rootfs type>-<kernel type>-dist.ext3
-
-Eg. qemumips64-wrlinux-image-glibc-small-standard-dist.ext3
-
-3.3.2 Related kernel options
-----------------------------
-
-Make sure the project is configured with:
-
-	--enable-kernel=standard+cfg/virtio.scc
-
-
-3.3.3 Deployment
-----------------
-
-Pass the command line option TARGET_QEMU_OPTS to QEMU, as shown:
-
- -drive if=virtio,file=<path to virtual disk image file>
-
-And pass kernel command line options to the guest as shown:
-
- root=/dev/vda
-
-For example, run the following command in the project directory:
-
-$ make start-target \
-TARGET_QEMU_OPTS=" -drive if=virtio,file=`pwd`/export/qemumips64-wrlinux-image-glibc-small-standard-dist.ext3" \
-TARGET_QEMU_KERNEL_OPTS=root=/dev/vda
-
+to boot it from initramfs.
 
 4. Target Notes
 ===============

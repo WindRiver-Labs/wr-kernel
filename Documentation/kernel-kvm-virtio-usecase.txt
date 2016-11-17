@@ -42,7 +42,7 @@ Scenarios
 
 Preconditions and Assumptions
 
-   - Wind River Linux 6.0 or newer
+   - Wind River Linux 9.0 or newer
 
    - BSPs built with the configurations shown.
  
@@ -67,11 +67,12 @@ KVM HOST preparation
    1. On the BUILD HOST, create a BSP project for the KVM HOST. 
       Use either the intel-x86-64 or qemux86-64 BSP:
     
-      path_to_wrlinux_install/wrlinux/configure \
-      --enable-kernel=standard \
-      --enable-rootfs=glibc_std \
-      --enable-board=qemux86-64 \
-      --with-template=feature/kvm
+	  wrlinux-x/setup.sh --kernel=standard \
+	  --machines=qemux86-64 --with-template=feature/kvm \
+	  --dl-layers 
+
+	  $ . ./environment-setup-x86_64-wrlinuxsdk-linux
+	  $ . ./oe-init-build-env <build dir>
 
    2. Acknowledge the non-free license status of the 'netperf' package.
 
@@ -94,22 +95,16 @@ KVM HOST preparation
       bridge-utils
       wrs-kvm-helper
 
-      This can be done by editing bitbake_build/conf/local.conf
+      This can be done by editing conf/local.conf
       directly to add:
 
       IMAGE_INSTALL_append += "netperf"
       IMAGE_INSTALL_append += "bridge-utils"
       IMAGE_INSTALL_append += "wrs-kvm-helper"
 
-      or through the build system:
-
-      $ make -C build netperf.addpkg
-      $ make -C build bridge-utils.addpkg
-      $ make -C build wrs-kvm-helper.addpkg
-
    4. Build the KVM HOST bsp:
 
-      $ make fs
+      $ bitbake wrlinux-image-glibc-std
 
    5. Deploy the kernel and rootfs to your target.
 
@@ -122,13 +117,20 @@ KVM GUEST preparation
    1. On the BUILD HOST, create a BSP project for the KVM GUEST. 
       Use the x86-64-kvm-guest BSP:
     
-      path_to_wrlinux_install/wrlinux/configure \
-      --enable-kernel=standard \
-      --enable-rootfs=glibc_std \
-      --enable-board=x86-64-kvm-guest \
-      --enable-bootimage=iso
+	  wrlinux-x/setup.sh --kernel=standard \
+	  --machines=x86-64-kvm-guest --dl-layers
 
-   2. Acknowledge the non-free license status of the 'netperf' package.
+	  $ . ./environment-setup-x86_64-wrlinuxsdk-linux
+	  $ . ./oe-init-build-env <build dir>
+
+   2. Enable ISO as boot image.
+     
+      This can be done by editing conf/local.conf
+      directly to add:
+
+	  IMAGE_FSTYPES += "ISO"
+
+   3. Acknowledge the non-free license status of the 'netperf' package.
 
       Add the setting of the LICENSE_FLAGS variable in the netperf
       bitbake recipe at:
@@ -143,34 +145,29 @@ KVM GUEST preparation
 
       in the local.conf file.
 
-   3. Add the following package to the BSP:
+   4. Add the following package to the BSP:
 
       netperf (provided by the netperf layer)
 
-      This can be done by editing bitbake_build/conf/local.conf
+      This can be done by editing conf/local.conf
       directly to add:
 
       IMAGE_INSTALL_append += "netperf"
 
-      or through the build system:
+   5. Build the KVM GUEST bsp:
 
-      $ make -C build netperf.addpkg
+      $ bitbake wrlinux-image-glibc-std
 
-   4. Build the KVM GUEST bsp:
+   6. Create a usb image for the KVM GUEST to boot from:
 
-      $ make fs
-
-   5. Create a usb image for the KVM GUEST to boot from:
-
-      $ make usb-image
+      $ bitbake usb-image
 
       This build will interactively request some details about the
       image to be built. The defaults for all questions are fine,
-      though use of an ext3 filesystem is recommended.
+      though use of an ext4 filesystem is recommended.
 
-   6. Copy the usb.image file to the /root directory on the KVM
+   7. Copy the usb.image file to the /root directory on the KVM
       HOST rootfs. 
-
 
 Demonstration
 
