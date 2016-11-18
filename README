@@ -36,8 +36,8 @@ Note: The linux-yocto* recipes are superseded by the linux-windriver*
 recipes when using this layer.  The linux-yocto* recipes are disabled
 to avoid confusion.
 
-You will need to specify the kernel type to build.  This is done using the
-kernel type enabled variable KTYPE_ENABLED.  The value of this variable is
+You will need to specify the kernel type to build. This is done using the
+linux kernel type variable LINUX_KERNEL_TYPE. The value of this variable is
 specific to the BSP you have configured, see the BSP for a list of supported
 kernel types, TARGET_SUPPORTED_KTYPES.
 

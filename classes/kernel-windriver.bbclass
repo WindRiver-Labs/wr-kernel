@@ -1,19 +1,16 @@
 #
 # Copyright (C) 2012 - 2015 Wind River Systems, Inc.
 #
-def machine_ktype_compatibility(d,match):
-    ktype_enabled = d.getVar('KTYPE_ENABLED', True)
-    supported_types = d.getVar('TARGET_SUPPORTED_KTYPES', True)
-    if not supported_types or not ktype_enabled:
-        return "%s" % "none"
+def machine_ktype_compatibility(d):
+    kernel_type = d.getVar('LINUX_KERNEL_TYPE', True)
+    supported_types = (d.getVar('TARGET_SUPPORTED_KTYPES', True) or '').split()
 
-    if ktype_enabled not in (supported_types):
-        return "%s" % "none"
-
-    if ktype_enabled in (match):
-        return "%s" % d.getVar('MACHINE', True)
+    if kernel_type and kernel_type in supported_types:
+        return d.getVar('MACHINE', True)
     else:
-        return "%s" % "none"
+        bb.warn("%s doesn't support %s, supported types are: %s" % \
+                    (d.getVar('PN', True), kernel_type, supported_types))
+        return 'none'
 
 KERNEL_SYSTEM_MAP_BASE_NAME ?= "System.map-${PV}-${PR}-${MACHINE}-${DATETIME}"
 VMLINUX_SYMBOLS_BASE_NAME ?= "vmlinux-symbols-${PV}-${PR}-${MACHINE}-${DATETIME}"

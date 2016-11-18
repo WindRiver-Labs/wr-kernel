@@ -19,10 +19,9 @@ LINUX_VERSION = "4.8.8"
 PR = "r0"
 PV = "${LINUX_VERSION}"
 
-# This checks the MACHINE and KTYPE_ENABLED against the TARGET_SUPPORTED_KTYPES.
-# If the MACHINE supports the kernel type, and the ktype is enabled in local.conf
-# the machine is declared compatible
-COMPATIBLE_MACHINE ?= '${@ machine_ktype_compatibility(d,"${LINUX_KERNEL_TYPE}")}'
+# This checks if LINUX_KERNEL_TYPE is in TARGET_SUPPORTED_KTYPES,
+# declared compatible if yes.
+COMPATIBLE_MACHINE ?= '${@machine_ktype_compatibility(d)}'
 
 # disabled: linux-tools.inc provides a perf building/packaging
 # hook. Instead we'll use a standalone perf package.

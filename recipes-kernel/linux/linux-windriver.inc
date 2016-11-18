@@ -30,9 +30,9 @@ LINUX_VERSION_EXTENSION = "-WR${DISTRO_VERSION}_${LINUX_KERNEL_TYPE}"
 INSANE_SKIP_kernel-vmlinux += " textrel ldflags"
 INSANE_SKIP_kernel-image += " textrel ldflags"
 
-# Align TARGET_SUPPORTED_KTYPES and KTYPE_ENABLED with LINUX_KERNEL_TYPE
+# Align TARGET_SUPPORTED_KTYPES with LINUX_KERNEL_TYPE
 TARGET_SUPPORTED_KTYPES ?= "standard"
-KTYPE_ENABLED ?= "standard"
+LINUX_KERNEL_TYPE ?= "standard"
 
 # Use the raw toolchain for kernel and kernel devshell builds
 TARGET_RAW_PREFIX ?= "${TARGET_PREFIX}"
