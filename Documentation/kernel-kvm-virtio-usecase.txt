@@ -68,7 +68,7 @@ KVM HOST preparation
       Use either the intel-x86-64 or qemux86-64 BSP:
     
 	  wrlinux-x/setup.sh --kernel=standard \
-	  --machines=qemux86-64 --with-template=feature/kvm \
+	  --machines=qemux86-64 --templates=feature/kvm \
 	  --dl-layers 
 
 	  $ . ./environment-setup-x86_64-wrlinuxsdk-linux
@@ -102,11 +102,15 @@ KVM HOST preparation
       IMAGE_INSTALL_append += "bridge-utils"
       IMAGE_INSTALL_append += "wrs-kvm-helper"
 
-   4. Build the KVM HOST bsp:
+   4. Turn on CONFIG_MACVLAN and CONFIG_MACVTAP
+      To use MacVTap for networking. Make sure these two options are 
+      enabled in host kernel. If they are modules, please load them.
+
+   5. Build the KVM HOST bsp:
 
       $ bitbake wrlinux-image-glibc-std
 
-   5. Deploy the kernel and rootfs to your target.
+   6. Deploy the kernel and rootfs to your target.
 
       Details of this process will depend on the particular target
       hardware and network configuration and are beyond the scope of
@@ -123,14 +127,7 @@ KVM GUEST preparation
 	  $ . ./environment-setup-x86_64-wrlinuxsdk-linux
 	  $ . ./oe-init-build-env <build dir>
 
-   2. Enable ISO as boot image.
-     
-      This can be done by editing conf/local.conf
-      directly to add:
-
-	  IMAGE_FSTYPES += "ISO"
-
-   3. Acknowledge the non-free license status of the 'netperf' package.
+   2. Acknowledge the non-free license status of the 'netperf' package.
 
       Add the setting of the LICENSE_FLAGS variable in the netperf
       bitbake recipe at:
@@ -145,7 +142,7 @@ KVM GUEST preparation
 
       in the local.conf file.
 
-   4. Add the following package to the BSP:
+   3. Add the following package to the BSP:
 
       netperf (provided by the netperf layer)
 
@@ -154,20 +151,12 @@ KVM GUEST preparation
 
       IMAGE_INSTALL_append += "netperf"
 
-   5. Build the KVM GUEST bsp:
+   4. Build the KVM GUEST bsp:
 
       $ bitbake wrlinux-image-glibc-std
 
-   6. Create a usb image for the KVM GUEST to boot from:
-
-      $ bitbake usb-image
-
-      This build will interactively request some details about the
-      image to be built. The defaults for all questions are fine,
-      though use of an ext4 filesystem is recommended.
-
-   7. Copy the usb.image file to the /root directory on the KVM
-      HOST rootfs. 
+   5. Copy bzImage and wrlinux-image-glibc-std-x86-64-kvm-guest.ext4
+      to /root directory on the KVM HOST.
 
 Demonstration
 
@@ -194,30 +183,27 @@ Demonstration
       root@wrlinux:~# ls /dev/tap*
       /dev/tap7
 
-   4. On the KVM HOST, boot the KVM GUEST with the following
+   4. On KVM HOST, run netperf program before booting KVM GUEST
+      It is located at /etc/init.d/netperf
+
+      root@wrlinux:~# /etc/init.d/netperf start
+
+   5. On the KVM HOST, boot the KVM GUEST with the following
       command:
 
       root@wrlinux:~# qemu-system-x86_64 -nographic -k en-us -m 1024 \
       -net user,hostname="kvm-guest" \
       -net nic,macaddr=1a:46:0b:ca:bc:7b,model=virtio \
       -net tap,fd=3 3<>/dev/tap7 \
-      -drive if=virtio,file=usb.img
+      -drive file=wrlinux-image-glibc-std-x86-64-kvm-guest.ext4,if=virtio,format=raw \
+      -kernel bzImage \
+      -append "root=/dev/vda rw console=ttyS0,115200"
 
-   5. When the guest starts to boot, the choice 'Graphics console'
-      or 'Serial console' will be offered. Select 'Serial console'.
-
-      NOTE: There is a long delay while the guest attempts to access
-      the (nonexistent) floppy disk while booting.
-
-      Start the guest network interface with:
+   6. Start the guest network interface with:
 
       root@localhost:~# ifconfig eth0 10.0.2.15
 
-   6. Running netperf:
-
-      The 'netserver' program (which is started at boot time by the
-      script at /etc/rc3.d/S20netperf on the KVM HOST) waits for a
-      connnection from 'netperf' on the KVM GUEST.
+   7. Running netperf:
         
       On the KVM GUEST, run netperf using 10.0.2.2. as the host IP.      
 
