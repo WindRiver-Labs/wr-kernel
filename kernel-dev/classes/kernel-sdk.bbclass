@@ -1,7 +1,7 @@
 do_populate_sdk[postfuncs] =+ "kernel_sdkpostprocess"
 python kernel_sdkpostprocess () {
 
-    import os, fnmatch, shutil, glob, re, string, sys, subprocess
+    import os, subprocess
 
     sdk_output =         d.getVar('SDK_OUTPUT', True) or ""
     sdk_target_sysroot = d.getVar('SDKTARGETSYSROOT', True) or ""
