@@ -23,3 +23,6 @@ changes.
 The exported headers are used for both sysroot and SDK population and are
 generated from the kernel's "headers_install" target.
 
+Add the lines to local.conf to enable it:
+PREFERRED_PROVIDER_linux-libc-headers = "linux-libc-headers-windriver"
+PREFERRED_PROVIDER_nativesdk-linux-libc-headers = "nativesdk-linux-libc-headers-windriver"
