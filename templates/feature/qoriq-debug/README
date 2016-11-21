@@ -11,7 +11,7 @@ applications.
 2. Usage
 ------
 Use the following option to the configure command:
- --with-template=feature/qoriq-debug
+ --templates feature/qoriq-debug
 
 This will include the qoriq-debug kernel module in the root filesystem.
 

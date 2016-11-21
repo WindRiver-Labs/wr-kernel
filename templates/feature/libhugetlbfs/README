@@ -17,7 +17,7 @@ turn it on.
 -------
 
 Add this template to your configure line:
- --with-template=feature/libhugetlbfs
+ --templates feature/libhugetlbfs
 
 This will ensure the required kernel config values are set.
 

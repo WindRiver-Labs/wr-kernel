@@ -13,7 +13,7 @@ NFS server capability on the target.
 --------
 
 Add this template using the following configure script option.
-ie.: --with-template=feature/nfsd
+ie.: --templates feature/nfsd
 
 This will ensure the required kernel config values are set. 
 
