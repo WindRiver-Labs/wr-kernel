@@ -20,6 +20,8 @@ do_install_append() {
 	install -m 0644 intel/ibt-hw-37.8.10-fw-1.10.2.27.d.bseq ${D}${FWPATH}/intel
 	install -m 0644 intel/ibt-hw-37.8.10-fw-1.10.3.11.e.bseq ${D}${FWPATH}/intel
 	install -m 0644 intel/ibt-11-5.sfi ${D}${FWPATH}/intel
+	install -m 0644 intel/ibt-12-16.sfi ${D}${FWPATH}/intel
+	install -m 0644 intel/ibt-12-16.ddc ${D}${FWPATH}/intel
 	install -m 0644 bnx2x/bnx2x-e2-7.2.16.0.fw ${D}${FWPATH}/bnx2x
 	install -m 0644 bnx2x/bnx2x-e2-7.8.17.0.fw ${D}${FWPATH}/bnx2x
 	install -m 0644 bnx2x/bnx2x-e2-7.10.51.0.fw ${D}${FWPATH}/bnx2x
@@ -42,6 +44,7 @@ PACKAGES =+ "\
 	     ${PN}-ibt-hw-37.8.10-fw-1.10.2.27.d \
 	     ${PN}-ibt-hw-37.8.10-fw-1.10.3.11.e \
 	     ${PN}-ibt-11-5 \
+	     ${PN}-ibt-12-16 \
 	     ${PN}-bnx2x-e2-7.2.16.0 \
 	     ${PN}-bnx2x-e2-7.8.17.0 \
 	     ${PN}-bnx2-rv2p-09-6.0.17 \
@@ -122,6 +125,12 @@ FILES_${PN}-ibt-hw-37.8.10-fw-1.10.3.11.e = " \
 RDEPENDS_${PN}-ibt-11-5 = "${PN}-iwlwifi-license"
 FILES_${PN}-ibt-11-5 = " \
   ${FWPATH}/intel/ibt-11-5.sfi \
+"
+
+RDEPENDS_${PN}-ibt-12-16 = "${PN}-iwlwifi-license"
+FILES_${PN}-ibt-12-16 = " \
+  ${FWPATH}/intel/ibt-12-16.sfi \
+  ${FWPATH}/intel/ibt-12-16.ddc \
 "
 
 FILES_${PN}-bnx2x-e2-7.2.16.0 = " \
