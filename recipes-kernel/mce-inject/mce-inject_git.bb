@@ -10,8 +10,6 @@ validation of the kernel machine check handler."
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://README;md5=26cb2dca1b099a7e8397f7a18db6fdfc"
 
-PR = "r0"
-
 SRC_URI = "git://git.kernel.org/pub/scm/utils/cpu/mce/mce-inject.git;protocol=git"
 SRCREV = "4cbe46321b4a81365ff3aafafe63967264dbfec5"
 

@@ -17,8 +17,6 @@ COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://license.txt;md5=bcc6ed4c19e32796aa1407d3ddc9d30a"
 
-PR = "r0"
-
 SRC_URI = "https://secure-software.intel.com/en-us/system/files/article/326559/intelperformancecountermonitorv2.3a.zip \
 	file://0001-intel-pcm-modify-Makefile-to-fit-wrlinux-build-syste.patch"
 

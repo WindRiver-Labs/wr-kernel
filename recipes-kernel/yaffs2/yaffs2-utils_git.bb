@@ -9,7 +9,6 @@ SECTION = "base"
 HOMEPAGE = "http://www.yaffs.net"
 LICENSE = "GPLv2"
 
-PR = "r0"
 PV = "git${SRCPV}"
 
 DEPENDS = "mtd-utils"
