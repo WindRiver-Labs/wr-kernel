@@ -37,6 +37,7 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
            file://0001-ptest-add-missing-test_helper-files.patch \
            file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
            file://0001-qemu-Let-empty-default-VNC-password-work-as-document.patch \
+           file://dnsmasq.libvirt-daemon \
           "
 
 SRC_URI[libvirt.md5sum] = "f9dc1e63d559eca50ae0ee798a4c6c6d"
@@ -118,6 +119,7 @@ FILES_${PN}-libvirtd = " \
 	${sbindir}/libvirtd \
 	${systemd_unitdir}/system/* \
 	${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', '${libexecdir}/libvirt-guests.sh', d)} \
+	${sysconfdir}/dnsmasq.d/libvirt-daemon \
         "
 
 FILES_${PN}-virsh = "${bindir}/virsh"
@@ -267,6 +269,10 @@ do_install_append() {
 	for i in `find ${D}${libdir} -type f -name *.la`; do
 	    sed -i -e 's#-L${B}/src/.libs##g' $i
 	done
+
+	# ensure dnsmasq doesn't default to listenning on all interfaces
+	install -d ${D}/${sysconfdir}/dnsmasq.d
+	install -m 644 ${WORKDIR}/dnsmasq.libvirt-daemon ${D}/${sysconfdir}/dnsmasq.d/libvirt-daemon
 }
 
 EXTRA_OECONF += " \
