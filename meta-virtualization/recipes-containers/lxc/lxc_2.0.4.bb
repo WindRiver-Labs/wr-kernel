@@ -21,6 +21,7 @@ RDEPENDS_${PN} = " \
 		glibc-utils \
 "
 RDEPENDS_${PN}-ptest += "file make"
+RDEPENDS_${PN}-networking += "iptables"
 
 SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
 	file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
@@ -34,6 +35,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
 	file://lxc-Add-container-name-check-in-lxc-wrlinux.patch \
 	file://add-wrlinux-distro.patch \
 	file://lxc-Tweak-lxc-template-script-for-systemd-sysvinit.patch \
+	file://default.lxc-net \
+	file://dnsmasq.lxc \
 	"
 
 SRC_URI[md5sum] = "28db4dbacf860ae742138c0ed8dbf14c"
@@ -71,6 +74,10 @@ SYSTEMD_PACKAGES = "${PN}-setup"
 SYSTEMD_SERVICE_${PN}-setup = "lxc.service"
 SYSTEMD_AUTO_ENABLE_${PN}-setup = "disable"
 
+SYSTEMD_PACKAGES += "${PN}-networking"
+SYSTEMD_SERVICE_${PN}-networking = "lxc-net.service"
+SYSTEMD_AUTO_ENABLE_${PN}-networking = "enable"
+
 INITSCRIPT_PACKAGES = "${PN}-setup"
 INITSCRIPT_NAME_{PN}-setup = "lxc"
 INITSCRIPT_PARAMS_${PN}-setup = "${OS_DEFAULT_INITSCRIPT_PARAMS}"
@@ -83,7 +90,8 @@ PACKAGES =+ "${PN}-templates ${PN}-setup ${PN}-networking"
 FILES_${PN}-templates += "${datadir}/lxc/templates"
 RDEPENDS_${PN}-templates += "bash"
 
-ALLOW_EMPTY_${PN}-networking = "1"
+FILES_${PN}-networking += "/etc/default/lxc-net"
+FILES_${PN}-networking += "/etc/dnsmasq.d/lxc"
 
 FILES_${PN}-setup += "/etc/tmpfiles.d"
 FILES_${PN}-setup += "/lib/systemd/system"
@@ -107,6 +115,11 @@ do_install_append() {
 	    install -d ${D}${sysconfdir}/init.d
 	    install -m 755 config/init/sysvinit/lxc* ${D}${sysconfdir}/init.d
 	fi
+
+	install -d ${D}${sysconfdir}/sysconfig
+	install -d ${D}${sysconfdir}/dnsmasq.d
+	install -m 644 ${WORKDIR}/default.lxc-net ${D}${sysconfdir}/sysconfig/lxc-net
+	install -m 644 ${WORKDIR}/dnsmasq.lxc ${D}${sysconfdir}/dnsmasq.d/lxc
 }
 
 EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
@@ -128,6 +141,9 @@ pkg_postinst_${PN}-networking() {
 
 	# setup for our bridge
         echo "lxc.network.link=lxcbr0" >> ${sysconfdir}/lxc/default.conf
+
+	# sysvinit
+	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
 
 cat >> /etc/network/interfaces << EOF
 
@@ -151,5 +167,8 @@ if test "x\$IFACE" = xlxcbr0 ; then
         fi
 fi
 EOF
-chmod 755 /etc/network/if-pre-up.d/lxcbr0
+	chmod 755 /etc/network/if-pre-up.d/lxcbr0
+
+	# sysvinit
+	fi
 }
