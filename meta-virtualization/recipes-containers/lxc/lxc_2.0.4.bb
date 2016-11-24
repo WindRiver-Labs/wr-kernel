@@ -92,9 +92,11 @@ RDEPENDS_${PN}-templates += "bash"
 
 FILES_${PN}-networking += "/etc/default/lxc-net"
 FILES_${PN}-networking += "/etc/dnsmasq.d/lxc"
+FILES_${PN}-networking += "/lib/systemd/system/lxc-net.service"
 
 FILES_${PN}-setup += "/etc/tmpfiles.d"
-FILES_${PN}-setup += "/lib/systemd/system"
+FILES_${PN}-setup += "/lib/systemd/system/lxc.service"
+FILES_${PN}-setup += "/lib/systemd/system/lxc@.service"
 FILES_${PN}-setup += "/usr/lib/systemd/system"
 FILES_${PN}-setup += "/etc/init.d"
 
