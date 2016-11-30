@@ -38,7 +38,7 @@ To implement item #3, the following are required:
   - The board description (.scc) file
   - (optional) kernel configuration fragments
 
-Example: extending a BSP to support the CGL kernel
+Example: extending a BSP to support the standard kernel
 ==================================================
 
 Create the following layer, and configure it into the build (or add it
@@ -51,7 +51,7 @@ to conf/bblayers.conf):
        └── linux
 	   ├── linux-windriver
 	   │   └── myqemuarma9.scc
-	   └── linux-windriver_3.4.bbappend
+	   └── linux-windriver_4.8.bbappend
 
 The contents of layer.conf are:
 
@@ -77,7 +77,7 @@ The contents of layer.conf are:
 
    LAYERDEPENDS_myqemuarm = "normal"
 
-And the contents of linux-windriver_3.4.bbappend are:
+And the contents of linux-windriver_4.8.bbappend are:
 
    FILESEXTRAPATHS := "${THISDIR}/${PN}"
 
@@ -86,10 +86,10 @@ And the contents of linux-windriver_3.4.bbappend are:
 And finally, the contents of myqemuarma9.scc are:
 
    define KMACHINE qemuarma9
-   define KTYPE cgl
+   define KTYPE standard
    define KARCH arm
 
-   include ktypes/cgl/cgl.scc
+   include ktypes/standard/standard.scc
    branch myqemuarma9
 
    kconf hardware bsp/qemuarma9/qemuarma9.cfg
@@ -101,16 +101,16 @@ patch and configuration phases to fully describe the kernel type extension.
 The first block of lines:
 
    define KMACHINE qemuarma9
-   define KTYPE cgl
+   define KTYPE standard
    define KARCH arm
 
-Are use by the build system to identify the .scc file as describing a CGL
+Are use by the build system to identify the .scc file as describing a standard
 definition for the qemuarma9 board, and is a mandatory part of any board
 description.
 
 The second block of lines:
 
-   include ktypes/cgl/cgl.scc
+   include ktypes/standard/standard.scc
    branch myqemuarma9
 
 Includes the base kernel type and creates a new board specific branch.
