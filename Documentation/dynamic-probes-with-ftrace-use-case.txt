@@ -26,7 +26,7 @@ Typically, the required kernel configs are enabled by default, but
 check to see if your build has it configured:
 
 From your BSP build directory:
-  make -C build linux-windriver.menuconfig
+  bitbake linux-windriver -c menuconfig
   Kernel Hacking -> Tracers -> [*]   Kernel Function Tracer
   Kernel Hacking -> Tracers -> [*]   Enable kprobes-based dynamic events
 
@@ -92,11 +92,11 @@ Step 2: setup a kprobe
 1) set probe points via /sys/kernel/debug/tracing/kprobe_events
 
 
-  echo 'p:doforkprobe do_fork clone_flags=%ax stack_start=%dx \
+  echo 'p:doforkprobe _do_fork clone_flags=%ax stack_start=%dx \
         regs=%cx parent_tidptr=+4($stack) child_tidptr=+8($stack)' \
         >> /sys/kernel/debug/tracing/kprobe_events
 
-This sets a kprobe on the top of do_fork() function with recording 1st to
+This sets a kprobe on the top of _do_fork() function with recording 1st to
 5th arguments as "doforkprobe" event. Note, %ax, %dx, %cx correspond
 to the ABI specific register/stack entry for function parameters.
 
@@ -143,11 +143,18 @@ Dump the trace log:
 root@d610> cat /sys/kernel/debug/tracing/trace
 # tracer: nop
 #
-#           TASK-PID    CPU#    TIMESTAMP  FUNCTION
-#              | |       |          |         |
-            bash-731   [000]    49.136511: doforkprobe: (do_fork+0x0/0x380) clone_flags=1200011 stack_start=bfda84a4 regs=f65c5fb4 parent_tidptr=0 child_tidptr=0
-            bash-731   [000]    49.162669: doforkprobe: (do_fork+0x0/0x380) clone_flags=1200011 stack_start=bfda84a4 regs=f65c5fb4 parent_tidptr=0 child_tidptr=0
-            bash-731   [000]    49.177634: doforkprobe: (do_fork+0x0/0x380) clone_flags=1200011 stack_start=bfda84a4 regs=f65c5fb4 parent_tidptr=0 child_tidptr=0
+# entries-in-buffer/entries-written: 3/3   #P:1
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+    kworker/u2:0-6     [000] d..1  7411.940658: doforkprobe: (_do_fork+0x0/0x3c0) clone_flags=0xffffffff8106c470 stack_start=0xffff88000b5668a0 regs=0x0 parent_tidptr=0xed9be20ffffffff child_tidptr=0xffff88000ed9be20
+         systemd-1     [000] d..1  7412.110407: doforkprobe: (_do_fork+0x0/0x3c0) clone_flags=0xffffffff810577a0 stack_start=0x0 regs=0x0 parent_tidptr=0xecd7f48ffffffff child_tidptr=0xffff88000ecd7f48
+              sh-227   [000] d..1  7415.234693: doforkprobe: (_do_fork+0x0/0x3c0) clone_flags=0xffffffff810577a0 stack_start=0x0 regs=0x0 parent_tidptr=0xdf87f48ffffffff child_tidptr=0xffff88000df87f48
 
 Step 4: disable a kprobe
 ------------------------
@@ -167,10 +174,10 @@ Examples
 ========
   1. Check four parameters of do_sys_open
   echo 'p:myprobe do_sys_open dfd=%ax filename=%dx flags=%cx mode=+4($stack)' > /sys/kernel/debug/tracing/kprobe_events
-  2. Check the return value of do_sys_open, __dentry_open, and do_fork
+  2. Check the return value of do_sys_open, do_dentry_open, and _do_fork
   echo 'r:myretprobe do_sys_open $retval' >> /sys/kernel/debug/tracing/kprobe_events
-  echo 'r:fork_retprobe do_fork $retval' >> /sys/kernel/debug/tracing/kprobe_events
-  echo 'r:dentry_openprobe __dentry_open $retval' >> /sys/kernel/debug/tracing/kprobe_events
+  echo 'r:fork_retprobe _do_fork $retval' >> /sys/kernel/debug/tracing/kprobe_events
+  echo 'r:do_dentry_openprobe do_dentry_open $retval' >> /sys/kernel/debug/tracing/kprobe_events
 
 Resoures
 ========
