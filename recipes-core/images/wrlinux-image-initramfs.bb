@@ -7,7 +7,7 @@ LICENSE = "MIT"
 
 IMAGE_INSTALL = "packagegroup-core-boot-wrs shadow"
 
-inherit core-image
+inherit wrlinux-image
 
 # allows root login without a password
 #
