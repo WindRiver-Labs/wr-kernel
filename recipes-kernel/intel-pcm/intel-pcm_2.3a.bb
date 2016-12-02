@@ -18,8 +18,7 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://license.txt;md5=bcc6ed4c19e32796aa1407d3ddc9d30a"
 
 SRC_URI = "https://software.intel.com/system/files/article/326559/intelperformancecountermonitorv2.3a.zip \
-	file://0001-intel-pcm-modify-Makefile-to-fit-wrlinux-build-syste.patch \
-	file://0001-wr-kernel-intel-pcm-fix-No-GNU_HASH-in-the-elf-binar.patch"
+	file://0001-intel-pcm-modify-Makefile-to-fit-wrlinux-build-syste.patch"
 
 SRC_URI[md5sum] = "554d38719dc0df35e0880334e6a8685d"
 SRC_URI[sha256sum] = "72ad7cb5cf3fe687f324d245c3bbb9f0da6a93a686b7844bf60ea699c553a8cb"
