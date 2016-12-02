@@ -27,7 +27,7 @@ is done automatically when using the Wind River configure wrapper.
 
 License
 -------
-Copyright (C) 2014 Wind River Systems, Inc.
+Copyright (C) 2014-2016 Wind River Systems, Inc.
 
 Source code included in the tree for individual recipes is under the LICENSE
 stated in the associated recipe (.bb file) unless otherwise stated.
@@ -60,7 +60,7 @@ To get a list of patches applied to the kernel specific to this BSP,
 along with patch descriptions, use git to see what changed on the default
 kernel (git whatchanged <kernel_type>..<bsp_name>). For example:
 
-  # cd build/linux-windriver-<version>/linux
+  # cd tmp/work-shared/<machine>/kernel-source
   # git whatchanged standard/base..HEAD
 
 
@@ -68,16 +68,20 @@ kernel (git whatchanged <kernel_type>..<bsp_name>). For example:
 ====================
 
 Since this BSP is targeted at a QEMU simulated board, run the command
-below in the project directory to run the BSP on top of QEMU:
+"runqemu qemuarm64 slirp nographic" to load the BSP on top of QEMU.
 
-$ make start-target
-
-
-3.1 NFS Root File System
+3.1 Ext4 Root File System
 ------------------------
 
-By default, the guest system running in QEMU runs NFS rootfs.
+By default, the guest system running in QEMU uses Ext4 rootfs.
 
+3.2 NFS Root File System
+
+When compiling copmpletely, run the command below in the project directory
+to load the BSP on top of QEMU:
+
+$  bitbake meta-ide-support
+$  runqemu qemuarm64 slirp nographic nfs
 
 3.2 RAM Root File System (initramfs)
 ------------------------------------
@@ -87,42 +91,19 @@ By default, the guest system running in QEMU runs NFS rootfs.
 
 Build the gzip'd initramfs image with:
 
-$ make wrlinux-image-initramfs
+$ bitbake wrlinux-image-initramfs
 
-The resulting file can be found at export/qemuarm64-wrlinux-image-glibc-small-standard-dist.cpio.gz
+The resulting file can be found at 
+tmp/deploy/images/qemuarm64/wrlinux-image-initramfs-<machine>.cpio.gz
 
 3.2.2 Deployment
 ----------------
 
-Pass the run-time option "-initrd" in TARGET_QEMU_OPTS to use the
-initramfs image as a ram disk, as shown in the example below.
+After compiling copmpletely, using the command: 
 
-And use the 'root=/dev/ram' kernel command line option. For example, run the following
-command in the project directory to run the guest in QEMU using initrd:
+$  runqemu qemuarm64 slirp nographic cpio.gz
 
-$ make start-target \
-TARGET_QEMU_OPTS="-initrd `pwd`/export/qemuarm64-wrlinux-image-glibc-small-standard-dist.cpio.gz -M vrit -cpu cortex-a57" \
-TARGET_QEMU_KERNEL_OPTS=root=/dev/ram
-
-Note: We need to make use of TARGET_QEMU_OPTS to specify '-M virt -cpu <cpu_type>' option
-for qemu.
-
-
-3.3 Virtual disk in QEMU
-------------------------
-
-virtio net and blk is enabled by default
-Make sure IMAGE_FSTYPES contains ext3 which gets ext3 rootfs built
-
-$ qemu-system-aarch64 \
--machine virt -cpu cortex-a57 -nographic -smp 1 -m 2G \
--kernel tmp/deploy/images/qemuarm64/Image \
--device virtio-blk-device,drive=disk0 \
--drive index=0,id=disk0,file=tmp/deploy/images/qemuarm64/wrlinux-image-glibc-small-qemuarm64.ext3 \
--device virtio-net-device,netdev=net0 \
--netdev user,id=net0 \
--append "console=ttyAMA0,38400 root=/dev/vda"
-
+to boot it from initramfs.
 
 4. Target Notes
 ===============

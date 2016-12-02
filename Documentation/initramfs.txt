@@ -22,7 +22,7 @@ To have the build system create an initramfs image you must set the
 INITRAMFS_IMAGE variable. You may set the variable to any valid image name (See
 NOTES). You would normally define this variable in your local.conf. After the
 build is complete your image will be available in the images directory
-(export/images | bitbake_build/tmp/deploy/images). For example:
+(tmp/deploy/images). For example:
 
 wrlinux-image-initramfs-x86-64-kvm-guest.cpio.gz
 
@@ -40,8 +40,8 @@ handful of other basic tools, examine wrlinux-image-initramfs.bb and
 packagegroup-core-boot-wrs.bb for details.
 
 To create a build which will create an initramfs image include the 'initramfs'
-feature template by adding '--with-template=feature/initramfs' to your configure
-line, or '+initramfs' to the "--enable-rootfs=" configure option.
+feature template by adding '--templates feature/initramfs' to your configure
+line.
 
 
 initramfs image bundling
@@ -56,8 +56,7 @@ image and bundle this image in your kernel.
 
 To create a build which will create and integrate an initramfs in your kernel
 image include the 'initramfs-integrated' feature template by adding
-'--with-template=feature/initramfs-integrated' to your configure line, or
-'+initramfs-integrated' to the "--enable-rootfs=" configure option.
+'--templates feature/initramfs-integrated' to your configure line.
 
 You will still have access to the cpio image in the images directory, but now
 the image will be built into your kernel, allowing you to boot without a
@@ -76,8 +75,8 @@ Adding packages to the initramfs
 ---------------------------------
 
 If you are making use of the wrlinux-image-initramfs image we recommend that you
-use the bitbake_build/conf/local.conf file to add packages to the
-image. For each package you would add a line such as the following:
+use the conf/local.conf file to add packages to the image. For each package you 
+would add a line such as the following:
 
 IMAGE_INSTALL_INITRAMFS_append += "dosfstools"
 IMAGE_INSTALL_INITRAMFS_append += "file"
