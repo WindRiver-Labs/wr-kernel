@@ -7,6 +7,8 @@ LICENSE = "MIT"
 
 IMAGE_INSTALL = "packagegroup-core-boot-wrs shadow"
 
+IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
+
 inherit wrlinux-image
 
 # allows root login without a password
@@ -16,7 +18,6 @@ IMAGE_FEATURES += "debug-tweaks"
 IMAGE_INSTALL_INITRAMFS = "packagegroup-core-boot-wrs shadow"
 IMAGE_LINGUAS = ""
 
-IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 QB_DEFAULT_FSTYPE = "cpio.gz"
 
 export IMAGE_BASENAME = "wrlinux-image-initramfs"
