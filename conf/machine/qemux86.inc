@@ -14,4 +14,3 @@ RDEPENDS_kernel-base = ""
 PREFERRED_VERSION_linux-windriver ?= "4.8%"
 
 QB_KERNEL_CMDLINE_APPEND_append = " clocksource=pit console=ttyS0,115200"
-QB_OPT_APPEND_append = " -usbdevice wacom-tablet"
