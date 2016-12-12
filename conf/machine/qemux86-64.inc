@@ -20,4 +20,3 @@ DEFAULTTUNE_virtclass-multilib-lib32 ?= "x86"
 KARCH = "x86-64"
 
 QB_KERNEL_CMDLINE_APPEND_append = " clocksource=pit console=ttyS0,115200"
-QB_OPT_APPEND_append = " -usbdevice wacom-tablet"
