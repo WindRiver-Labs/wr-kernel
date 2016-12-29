@@ -25,13 +25,13 @@ TARGET_SUPPORTED_KTYPES_qemuppc = "standard preempt-rt"
 KBRANCH_qemuppc_standard ?= "standard/qemuppc"
 
 # qemux86
-TARGET_SUPPORTED_KTYPES_qemux86 = "standard preempt-rt tiny"
+TARGET_SUPPORTED_KTYPES_qemux86 = "standard preempt-rt cgl tiny"
 # A method to install/update for bzImage on a deployed target
 KERNELLOADEREXTENSION_append_qemux86 = " kernel-grub"
 KBRANCH_qemux86_tiny ?= "standard/tiny/common-pc"
 
 # qemux86-64
-TARGET_SUPPORTED_KTYPES_qemux86-64 = "standard preempt-rt tiny"
+TARGET_SUPPORTED_KTYPES_qemux86-64 = "standard preempt-rt cgl tiny"
 # A method to install/update for bzImage on a deployed target
 KERNELLOADEREXTENSION_append_qemux86-64 = " kernel-grub"
 

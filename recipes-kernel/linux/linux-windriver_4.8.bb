@@ -10,6 +10,7 @@ require recipes-kernel/linux/${KERNEL_INC}
 
 KBRANCH_DEFAULT ?= "standard/base"
 KBRANCH_DEFAULT_preempt-rt ?= "standard/preempt-rt/base"
+KBRANCH_DEFAULT_cgl ?= "standard/cgl/base"
 KBRANCH_DEFAULT_tiny ?= "standard/tiny/base"
 
 KBRANCH = "${KBRANCH_DEFAULT}"
