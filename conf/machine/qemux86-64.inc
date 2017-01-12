@@ -20,3 +20,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 ?= "x86"
 KARCH = "x86-64"
 
 QB_KERNEL_CMDLINE_APPEND_append = " clocksource=pit console=ttyS0,115200"
+
+IMAGE_FSTYPES += "wic wic.bmap live"
+WKS_FILE ?= "directdisk.wks"
+do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"

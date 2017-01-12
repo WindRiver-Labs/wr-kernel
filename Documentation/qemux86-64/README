@@ -123,3 +123,22 @@ isolates the guest from the host. In some rare cases, QEMU might have a
 problem providing a stable time source for the guest, hence we need to
 specify "no_timer_check" as a kernel command line option for the guest
 kernel.
+
+5. Creating Partitioned Images(WIC)
+===================================
+
+User can use the OpenEmbedded Image Creator, wic, to create the properly
+partitioned image on a SD card, flash, or a HDD. The wic command
+generates partitioned images from existing OpenEmbedded build artifacts.
+User can refer to the below URL to get more WIC details:
+
+http://www.yoctoproject.org/docs/2.2/mega-manual/mega-manual.html#creating-partitioned-images
+
+After build the project, user will get a WIC image under the directory
+tmp/deploy/images/<bsp name>/ ,such as:
+
+tmp/deploy/images/qemux86-64/wrlinux-image-glibc-small-qemux86-64.wic
+
+Then user can use the below command to boot this image:
+
+$ runqemu qemux86-64 tmp/deploy/images/qemux86-64/wrlinux-image-glibc-small-qemux86-64.wic

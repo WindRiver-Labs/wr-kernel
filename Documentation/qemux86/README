@@ -114,3 +114,22 @@ This BSP does not have a usable implementation of hardware performance
 counters, so OProfile must be used in timer mode. If you are
 using OProfile, you will need to add "oprofile.timer=1" to your kernel boot
 options.
+
+5. Creating Partitioned Images(WIC)
+===================================
+
+User can use the OpenEmbedded Image Creator, wic, to create the properly
+partitioned image on a SD card, flash, or a HDD. The wic command
+generates partitioned images from existing OpenEmbedded build artifacts.
+User can refer to the below URL to get more WIC details:
+
+http://www.yoctoproject.org/docs/2.2/mega-manual/mega-manual.html#creating-partitioned-images
+
+After build the project, user will get a WIC image under the directory
+tmp/deploy/images/<bsp name>/ ,such as:
+
+tmp/deploy/images/qemux86/wrlinux-image-glibc-small-qemux86.wic
+
+Then user can use the below command to boot this image:
+
+$ runqemu qemux86 tmp/deploy/images/qemux86/wrlinux-image-glibc-small-qemux86.wic

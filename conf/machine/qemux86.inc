@@ -14,3 +14,7 @@ RDEPENDS_kernel-base = ""
 PREFERRED_VERSION_linux-windriver ?= "4.8%"
 
 QB_KERNEL_CMDLINE_APPEND_append = " clocksource=pit console=ttyS0,115200"
+
+IMAGE_FSTYPES += "wic wic.bmap live"
+WKS_FILE ?= "directdisk.wks"
+do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
