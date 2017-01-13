@@ -36,3 +36,4 @@ SRC_URI = "git://${KSRC_linux_windriver_4_8};protocol=file;branch=${KBRANCH};nam
 	   "
 
 include qemu.inc
+include srcrev.inc
