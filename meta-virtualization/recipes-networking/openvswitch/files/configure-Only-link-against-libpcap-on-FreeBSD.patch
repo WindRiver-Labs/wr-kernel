@@ -22,7 +22,7 @@ index f0610c9..19a47dd 100644
 +++ b/acinclude.m4
 @@ -1,6 +1,6 @@
  # -*- autoconf -*-
-
+ 
 -# Copyright (c) 2008, 2009, 2010, 2011, 2012 Nicira, Inc.
 +# Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013 Nicira, Inc.
  #
@@ -30,7 +30,7 @@ index f0610c9..19a47dd 100644
  # you may not use this file except in compliance with the License.
 @@ -295,6 +295,8 @@ AC_DEFUN([OVS_CHECK_IF_PACKET],
     fi])
-
+ 
  dnl Checks for net/if_dl.h.
 +dnl
 +dnl (We use this as a proxy for checking whether we're building on FreeBSD.)
@@ -45,7 +45,7 @@ index f0610c9..19a47dd 100644
 +      # On FreeBSD we use libpcap to access network devices.
 +      AC_SEARCH_LIBS([pcap_open_live], [pcap])
     fi])
-
+ 
  dnl Checks for buggy strtok_r.
 diff --git a/configure.ac b/configure.ac
 index 1cacd29..bd49179 100644
@@ -62,8 +62,9 @@ index 1cacd29..bd49179 100644
  AC_SEARCH_LIBS([clock_gettime], [rt])
  AC_SEARCH_LIBS([timer_create], [rt])
 -AC_SEARCH_LIBS([pcap_open_live], [pcap])
-
+ 
  OVS_CHECK_ESX
  OVS_CHECK_COVERAGE
---
+-- 
 1.8.3.2
+

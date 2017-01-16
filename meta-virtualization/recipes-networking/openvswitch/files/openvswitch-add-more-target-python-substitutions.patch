@@ -22,7 +22,7 @@ index 85c126d..402a77c 100755
 @@ -1,4 +1,4 @@
 -#! @PYTHON@
 +#! @TARGET_PYTHON@
-
+ 
  from datetime import date
  import ovs.db.error
 diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
@@ -32,7 +32,7 @@ index ec1c655..f5c135f 100755
 @@ -1,4 +1,4 @@
 -#! @PYTHON@
 +#! @TARGET_PYTHON@
-
+ 
  import getopt
  import os
 diff --git a/utilities/ovs-dpctl-top.in b/utilities/ovs-dpctl-top.in
@@ -45,5 +45,6 @@ index f43fdeb..8475118 100755
  #
  # Copyright (c) 2013 Nicira, Inc.
  #
---
+-- 
 1.8.3.4
+

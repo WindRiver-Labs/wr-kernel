@@ -11,12 +11,12 @@ HOMEPAGE = "http://openvswitch.org/"
 SECTION = "networking"
 LICENSE = "Apache-2"
 
-DEPENDS += "bridge-utils openssl python perl"
+DEPENDS += "bridge-utils openssl python perl python-six-native"
 
 RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
-	python perl perl-module-strict ${PN}-switch ${PN}-controller \
-        bash"
-RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
+	python perl perl-module-strict ${PN}-switch \
+        bash python-twisted python-six libcap-ng"
+RDEPENDS_${PN}-testcontroller = "${PN} lsb ${PN}-pki"
 RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
 RDEPENDS_${PN}-pki = "${PN}"
 RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
@@ -29,15 +29,14 @@ RDEPENDS_${PN} += "sed gawk grep"
 SRC_URI = "\
 	file://openvswitch-switch \
 	file://openvswitch-switch-setup \
-	file://openvswitch-controller \
-	file://openvswitch-controller-setup \
-	file://openvswitch-add-target-python-handling.patch \
-	file://openvswitch-add-target-perl-handling.patch \
+	file://openvswitch-testcontroller \
+	file://openvswitch-testcontroller-setup \
 	"
 
 EXTRA_OECONF += "\
-	TARGET_PYTHON=${bindir}/python \
-	TARGET_PERL=${bindir}/perl \
+	PYTHON=python \
+	PYTHON3=python3 \
+	PERL=${bindir}/perl \
 	"
 CONFIGUREOPT_DEPTRACK = ""
 
@@ -47,13 +46,13 @@ CONFIGUREOPT_DEPTRACK = ""
 # EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
 
 ALLOW_EMPTY_${PN}-pki = "1"
-PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
+PACKAGES =+ "${PN}-testcontroller ${PN}-switch ${PN}-brcompat ${PN}-pki"
 
-FILES_${PN}-controller = "\
-	${sysconfdir}/init.d/openvswitch-controller \
-	${sysconfdir}/default/openvswitch-controller \
-	${sysconfdir}/openvswitch-controller \
-	${bindir}/ovs-controller \
+FILES_${PN}-testcontroller = "\
+	${sysconfdir}/init.d/openvswitch-testcontroller \
+	${sysconfdir}/default/openvswitch-testcontroller \
+	${sysconfdir}/openvswitch-testcontroller \
+	${bindir}/ovs-testcontroller \
 	"
 
 FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
@@ -61,35 +60,54 @@ FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
 FILES_${PN}-switch = "\
 	${sysconfdir}/init.d/openvswitch-switch \
 	${sysconfdir}/default/openvswitch-switch \
+	${systemd_unitdir}/system/ovs-vswitchd.service \
+	${systemd_unitdir}/system/openvswitch.service \
+	${systemd_unitdir}/system/ovsdb-server.service \
 	"
 
 # silence a warning
 FILES_${PN} += "${datadir}/ovsdbmonitor"
 FILES_${PN} += "/run"
 
-inherit autotools update-rc.d
+FILES_${PN} += "${libdir}/python${PYTHON_BASEVERSION}/"
+inherit autotools update-rc.d systemd pythonnative
 
-INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
+SYSTEMD_PACKAGES = "${PN}-switch"
+SYSTEMD_SERVICE_${PN}-switch = " \
+    ovsdb-server.service \
+    ovs-vswitchd.service \
+    openvswitch.service \
+"
+
+INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-testcontroller"
 INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
 INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
 
-INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
-INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
+INITSCRIPT_NAME_${PN}-testcontroller = "openvswitch-testcontroller"
+INITSCRIPT_PARAMS_${PN}-testcontroller = "defaults 72"
 
 do_install_append() {
 	install -d ${D}/${sysconfdir}/default/
 	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
-	install -d ${D}/${sysconfdir}/openvswitch-controller
-	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
+	install -d ${D}/${sysconfdir}/openvswitch-testcontroller
+	install -m 660 ${WORKDIR}/openvswitch-testcontroller-setup ${D}/${sysconfdir}/default/openvswitch-testcontroller
 
 	install -d ${D}/${sysconfdir}/init.d/
-	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
+	install -m 755 ${WORKDIR}/openvswitch-testcontroller ${D}/${sysconfdir}/init.d/openvswitch-testcontroller
 	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
 	true || rm -fr ${D}/${datadir}/${PN}/pki
 
-	install -d ${D}/${sysconfdir}/init.d/
+	install -d ${D}/${systemd_unitdir}/system/
+	install -m 644 ${S}/rhel/usr_lib_systemd_system_ovs-vswitchd.service \
+		${D}/${systemd_unitdir}/system/ovs-vswitchd.service
+	install -m 644 ${S}/rhel/usr_lib_systemd_system_openvswitch.service \
+		${D}/${systemd_unitdir}/system/openvswitch.service
+	install -m 644 ${S}/rhel/usr_lib_systemd_system_ovsdb-server.service \
+		${D}/${systemd_unitdir}/system/ovsdb-server.service
 
 	oe_runmake modules_install INSTALL_MOD_PATH=${D}
+	install -d ${D}${libdir}/python${PYTHON_BASEVERSION}/site-packages
+	cp -r ${S}/python/ovstest/ ${D}${libdir}/python${PYTHON_BASEVERSION}/site-packages/
 }
 
 pkg_postinst_${PN}-pki () {
@@ -102,7 +120,7 @@ pkg_postinst_${PN}-pki () {
 	fi
 }
 
-pkg_postinst_${PN}-controller () {
+pkg_postinst_${PN}-testcontroller () {
 	# can't do this offline
 	if [ "x$D" != "x" ]; then
 		exit 1
@@ -112,7 +130,7 @@ pkg_postinst_${PN}-controller () {
 		ovs-pki init --dir=$D/${datadir}/${PN}/pki
 	fi
 
-	cd $D/${sysconfdir}/openvswitch-controller
+	cd $D/${sysconfdir}/openvswitch-testcontroller
 	if ! test -e cacert.pem; then
 		ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
 	fi

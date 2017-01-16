@@ -6,24 +6,28 @@ RDEPENDS_${PN}-ptest += "\
 	python-logging python-syslog python-argparse python-io \
 	python-fcntl python-shell python-lang python-xml python-math \
 	python-datetime python-netclient python sed \
+	ldd perl-module-socket perl-module-carp perl-module-exporter \
+	perl-module-xsloader python-netserver python-threading \
+	python-resource python-subprocess \
 	"
 
 S = "${WORKDIR}/git"
-PV = "2.4.0+${SRCREV}"
+PV = "2.6.1+${SRCREV}"
 
 FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
 
-SRCREV = "bb429e09f7783f1ba23ac0682ed9edf424f0cfbb"
+SRCREV = "f4b0e64cffb4777ff03d48621c3eadcf1d8c19f3"
 SRC_URI += "\
-	git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.4 \
-	file://openvswitch-add-more-target-python-substitutions.patch \
+	git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.6 \
 	file://openvswitch-add-ptest-${SRCREV}.patch \
 	file://run-ptest \
 	file://disable_m4_check.patch \
 	file://kernel_module.patch \
+	file://openvswitch-ptest-Fix-python-path.patch \
+	file://python-make-remaining-scripts-use-usr-bin-env.patch \
 	"
 
-LIC_FILES_CHKSUM = "file://COPYING;md5=5973c953e3c8a767cf0808ff8a0bac1b"
+LIC_FILES_CHKSUM = "file://COPYING;md5=17b2c9d4c70853a09c0e143137754b35"
 
 PACKAGECONFIG ?= ""
 PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}/opt/dpdk/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,"
@@ -46,4 +50,5 @@ do_install_ptest() {
 
 do_install_append() {
 	oe_runmake modules_install INSTALL_MOD_PATH=${D}
+	rm -r ${D}/${localstatedir}/run
 }
