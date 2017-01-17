@@ -15,7 +15,11 @@ PR = "r2"
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/mce-test.git;protocol=git \
            file://makefile-remove-ldflags.patch \
           "
+# Use the commit date of SRCREV in PV.
+#
 SRCREV = "b3fdfaa7a025b68f30913c9cc7a8fe4ae9c7ed7f"
+PE = "1"
+PV = "20131218+git${SRCPV}"
 
 RDEPENDS_${PN} = "mcelog mce-inject dialog bash"
 
