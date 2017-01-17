@@ -11,7 +11,12 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://README;md5=26cb2dca1b099a7e8397f7a18db6fdfc"
 
 SRC_URI = "git://git.kernel.org/pub/scm/utils/cpu/mce/mce-inject.git;protocol=git"
+
+# Use the commit date of SRCREV in PV.
+#
 SRCREV = "4cbe46321b4a81365ff3aafafe63967264dbfec5"
+PE = "1"
+PV = "20130119+git${SRCPV}"
 
 S ="${WORKDIR}/git"
 
