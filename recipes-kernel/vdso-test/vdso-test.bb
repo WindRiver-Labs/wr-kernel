@@ -27,7 +27,7 @@ do_compile() {
  	if [ "${SITEINFO_BITS}" = "64" ]; then
 	  ${CC} -std=gnu99 -nostdlib -Os -fno-asynchronous-unwind-tables -flto vdso_test.c parse_vdso.c -o vdso_test-x86_64
 	else
-	  ${CC} vdso.c -o vdso_test-x86 
+	  ${CC} ${LDFLAGS} vdso.c -o vdso_test-x86
 	fi
 }
 
