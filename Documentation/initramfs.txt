@@ -78,8 +78,8 @@ If you are making use of the wrlinux-image-initramfs image we recommend that you
 use the conf/local.conf file to add packages to the image. For each package you 
 would add a line such as the following:
 
-IMAGE_INSTALL_INITRAMFS_append += "dosfstools"
-IMAGE_INSTALL_INITRAMFS_append += "file"
+IMAGE_INSTALL_INITRAMFS_append = " dosfstools"
+IMAGE_INSTALL_INITRAMFS_append = " file"
 
 NOTES:
 1) Keep an eye on size. Adding packages to the initramfs may cause it to become
@@ -89,10 +89,11 @@ NOTES:
    included via MACHINE_ESSENTIAL_EXTRA_R* variables. If you have a package which
    is required to boot a target it must be added using the above technique.
 3) If you want to add a kernel module into the initramfs, you must add the
-   dependency of that kernel module too.
-   For example, if you want module ip_tables, x_tables must be added in:
-   IMAGE_INSTALL_INITRAMFS_append += "kernel-module-ip-tables"
-   IMAGE_INSTALL_INITRAMFS_append += "kernel-module-x-tables"
+   dependency of that kernel module also.
+   For example, if you want module ip_tables which depends on x_tables,
+   then x_tables must be added in:
+   IMAGE_INSTALL_INITRAMFS_append = " kernel-module-ip-tables"
+   IMAGE_INSTALL_INITRAMFS_append = " kernel-module-x-tables"
 4) For a package which creates out-of-tree module, if you want the module
    to be in the initramfs, you must also need to add the package initramfs
    because of dependency.
@@ -113,6 +114,6 @@ Caveats
 Files of interest
 ------------------
 bitbake_build/conf/local.conf
-wr-kernel/recipes-core/images/wrlinux-image-initramfs.bb
-wr-kernel/recipes-core/tasks/packagegroup-core-boot-wrs.bb
+layers/wr-kernel/recipes-core/images/wrlinux-image-initramfs.bb
+layers/wr-kernel/recipes-core/tasks/packagegroup-core-boot-wrs.bb
 export/images/wrlinux-image-initramfs*
