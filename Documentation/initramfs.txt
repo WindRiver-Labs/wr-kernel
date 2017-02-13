@@ -95,8 +95,11 @@ NOTES:
    IMAGE_INSTALL_INITRAMFS_append = " kernel-module-ip-tables"
    IMAGE_INSTALL_INITRAMFS_append = " kernel-module-x-tables"
 4) For a package which creates out-of-tree module, if you want the module
-   to be in the initramfs, you must also need to add the package initramfs
-   because of dependency.
+   to be in the initramfs, you must also need to add the package into initramfs
+   because of dependency that this out-of-tree module sometimes depends on the component
+   provided by the package(such as server module and userspace client).
+   For example: package_xxx includes xxx module and xxx binary file
+   IMAGE_INSTALL_INITRAMFS_append = " pacakge_xxx"
 
 Caveats
 --------
