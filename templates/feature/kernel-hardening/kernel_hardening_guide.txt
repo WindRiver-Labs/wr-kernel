@@ -6,14 +6,15 @@ hardening features that are currently supported by the upstream Linux kernel.
 It will also explain that various exploits that are mitigated by them. 
 
 Kernel hardening features which are still under development or not merged to
-mainline kernel by 4.8.x are not coverred by this document, i.e.
+mainline kernel by 4.8.x are not covered by this document, i.e.
 	- hardened atomic
 	- __roafter_init infrastructure
-	- gcc pluging infrastructure
+	- gcc plugin infrastructure
 	- list hardening
 
 Each hardening feature may have an impact to the runtime performance or kernel
-image size.  Enabling or disabling these features is left to the users discretion.
+image size.  Enabling or disabling these features is left to the users'
+discretion.
 
 This document may not be able to cover all trivial scenarios, for more
 information, please refer to the materials listed in the reference section
