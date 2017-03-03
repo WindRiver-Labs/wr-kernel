@@ -14,9 +14,9 @@ inherit allarch
 
 #S="${WORKDIR}/${BPN}-${BP}"
 
-SRC_URI = "https://git.fedorahosted.org/cgit/hwdata.git/snapshot/${BP}.tar.gz"
-SRC_URI[md5sum] = "90ffce584bbcb1a5e77eac8503949f71"
-SRC_URI[sha256sum] = "e1007a96645cb3390aa9c0ed3f090a69d2302ce4d801914b6af1ab4ec85ede4e"
+SRC_URI = "http://ftp.slackware.com/pub/slackware/slackware-current/source/a/hwdata/${BP}.tar.xz"
+SRC_URI[md5sum] = "20c5cab3adffdac55a80d05b4290ae69"
+SRC_URI[sha256sum] = "aaf07f1f446ae818252128de56905c33c48da93cf548cb82dacc36d8728f3888"
 
 do_configure() {
      ${S}/configure
