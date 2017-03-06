@@ -15,7 +15,7 @@ KBRANCH_DEFAULT_tiny ?= "standard/tiny/base"
 
 KBRANCH = "${KBRANCH_DEFAULT}"
 
-LINUX_VERSION = "4.8.17"
+LINUX_VERSION = "4.8.18"
 
 PV = "${LINUX_VERSION}"
 
