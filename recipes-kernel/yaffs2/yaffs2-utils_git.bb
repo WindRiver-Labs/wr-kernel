@@ -9,8 +9,6 @@ SECTION = "base"
 HOMEPAGE = "http://www.yaffs.net"
 LICENSE = "GPLv2"
 
-PV = "git${SRCPV}"
-
 DEPENDS = "mtd-utils"
 
 S = "${WORKDIR}/git"
@@ -19,7 +17,12 @@ S = "${WORKDIR}/git"
 SRC_URI = "git://www.aleph1.co.uk/yaffs2;protocol=git \
            file://makefile-add-ldflags.patch \
           "
+
+# Use the commit date of SRCREV in PV.
+#
 SRCREV = "7e5cf0fa1b694f835cdc184a8395b229fa29f9ae"
+PE = "1"
+PV = "20140807+git${SRCPV}"
 
 LIC_FILES_CHKSUM = "file://utils/mkyaffs2image.c;beginline=12;endline=14;md5=5f5464f9b3e981ca574e65b00e438561"
 
