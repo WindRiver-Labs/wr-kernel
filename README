@@ -41,7 +41,7 @@ linux kernel type variable LINUX_KERNEL_TYPE. The value of this variable is
 specific to the BSP you have configured, see the BSP for a list of supported
 kernel types, TARGET_SUPPORTED_KTYPES.
 
-Alternatively you can disable the machine validation by manually
+Alternatively, you can disable machine validation by manually
 setting the following in your local.conf:
 
    COMPATIBLE_MACHINE_mybsp = "mybsp"
