@@ -27,8 +27,8 @@ SRCREV_machine_kb-standard-intel-x86-64 ?= "9fc2c3889559540a212c6efbd4a83f691fa5
 SRCREV_machine_kb-standard-mti-malta32 ?= "1e768751656c048516fd671f75b66ab5d3baa6b5"
 SRCREV_machine_kb-standard-mti-malta64 ?= "4ecde704800aa8ff8e654e67dd55897c7f4c1a77"
 SRCREV_machine_kb-standard-nxp-imx-base ?= "9fc2c3889559540a212c6efbd4a83f691fa57d38"
-SRCREV_machine_kb-standard-nxp-imx-sdk-4.1.15-base ?= "de73e5bc210fa2413a3723dc87c6c91d9e73f9d4"
-SRCREV_machine_kb-standard-nxp-imx-sdk-4.1.15-nxp-imx6 ?= "a657d21a38618c73333cb131bae8f0e731def1d8"
+SRCREV_machine_kb-standard-nxp-imx-sdk-4.1.15-base ?= "c6a802f71e645e829b718bd2c95f07362dd9f773"
+SRCREV_machine_kb-standard-nxp-imx-sdk-4.1.15-nxp-imx6 ?= "b21c2c6c81493f7975108454220e47a13d47f035"
 SRCREV_machine_kb-standard-nxp-base ?= "9fc2c3889559540a212c6efbd4a83f691fa57d38"
 SRCREV_machine_kb-standard-nxp-sdk-2-0-base ?= "dfc23872aaf5672536a2debe0a0ebfcc3fac9e3f"
 SRCREV_machine_kb-standard-nxp-sdk-2-0-nxp-ls10xx ?= "93874ba26370a5213a42724ebd0bc13bb81bb5e6"
@@ -40,8 +40,8 @@ SRCREV_machine_kb-standard-preempt-rt-intel ?= "8985bfd085dfe481a7b11106dbf1ba86
 SRCREV_machine_kb-standard-preempt-rt-intel-x86-32 ?= "3fdbf98c19ef683f5b40adf0454c8b9bf9a65ef7"
 SRCREV_machine_kb-standard-preempt-rt-intel-x86-64 ?= "fd5cf258ab2cc66c2f77204911afb872977552fc"
 SRCREV_machine_kb-standard-preempt-rt-nxp-imx-base ?= "f7a46878f8d9ef61c4c4f51e78c0a8df8082d414"
-SRCREV_machine_kb-standard-preempt-rt-nxp-imx-sdk-4.1.15-base ?= "9645865479aa7072644367b151997777fd01cf14"
-SRCREV_machine_kb-standard-preempt-rt-nxp-imx-sdk-4.1.15-nxp-imx6 ?= "2b712fcef970c6d7100196d123a7648a70a6d111"
+SRCREV_machine_kb-standard-preempt-rt-nxp-imx-sdk-4.1.15-base ?= "ef17439b49cd37b46fb800cfddb300a1ae3f77dc"
+SRCREV_machine_kb-standard-preempt-rt-nxp-imx-sdk-4.1.15-nxp-imx6 ?= "f393240b0697a828ec37c36897e7c97a25202215"
 SRCREV_machine_kb-standard-preempt-rt-nxp-base ?= "0c9ebdf89983eeab594a4202c9ea2d8fd6d7048d"
 SRCREV_machine_kb-standard-preempt-rt-nxp-sdk-2-0-base ?= "bd9117b3bd64633f9d3f8d3749bbfbdf870a559c"
 SRCREV_machine_kb-standard-preempt-rt-nxp-sdk-2-0-nxp-ls10xx ?= "e34c38e00ab6ae1004b8574b1c9a1f72c4f19920"
@@ -61,4 +61,4 @@ SRCREV_machine_kb-standard-xilinx-zynq ?= "b90d042e0602bb8ab286cb0e3a8cfd8fe4f6c
 SRCREV_machine_kb-standard-xilinx-zynqmp ?= "21b1d1d43576c1aaa72cb23ea8717717d8f2efd5"
 
 # kernel-cache branch entry
-SRCREV_meta = "446e0e62dfc5e2330242833edaaa60a4d20e26e9"
+SRCREV_meta = "445d9e5a7984d64d0d1995c684dc2bbf8fb2073e"
