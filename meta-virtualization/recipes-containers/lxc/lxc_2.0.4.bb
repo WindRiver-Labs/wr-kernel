@@ -35,6 +35,11 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
 	file://lxc-Add-container-name-check-in-lxc-wrlinux.patch \
 	file://add-wrlinux-distro.patch \
 	file://lxc-Tweak-lxc-template-script-for-systemd-sysvinit.patch \
+	file://0001-utils-add-lxc_preserve_ns.patch \
+	file://0001-start-utils-improve-preserve_ns.patch \
+	file://0001-attach-utils-bugfixes.patch \
+	file://0001-lxc_user_nic-use-lxc_preserve_ns.patch \
+	file://CVE-2017-5985.patch \
 	file://default.lxc-net \
 	file://dnsmasq.lxc \
 	"

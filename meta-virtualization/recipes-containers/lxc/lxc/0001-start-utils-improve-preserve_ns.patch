@@ -1,0 +1,36 @@
+From 4d8ac866fc29a555531029fec797ce7125dd0701 Mon Sep 17 00:00:00 2001
+From: Christian Brauner <christian.brauner@canonical.com>
+Date: Sat, 29 Oct 2016 16:58:48 +0200
+Subject: [PATCH] utils: improve preserve_ns()
+
+- Improve lxc_preserve_ns(): By passing in NULL or "" as the second argument
+  the function can now also be used to check whether namespaces are supported
+  by the kernel.
+
+Signed-off-by: Christian Brauner <christian.brauner@canonical.com>
+---
+ src/lxc/utils.c |    8 +++++++-
+ 2 files changed, 24 insertions(+), 35 deletions(-)
+
+diff --git a/src/lxc/utils.c b/src/lxc/utils.c
+index e7b498e..70f5aeb 100644
+--- a/src/lxc/utils.c
++++ b/src/lxc/utils.c
+@@ -1975,7 +1975,13 @@ int lxc_preserve_ns(const int pid, const char *ns)
+ 	size_t len = 5 /* /proc */ + 21 /* /int_as_str */ + 3 /* /ns */ + 20 /* /NS_NAME */ + 1 /* \0 */;
+ 	char path[len];
+ 
+-	ret = snprintf(path, len, "/proc/%d/ns/%s", pid, ns);
++	/* This way we can use this function to also check whether namespaces
++	 * are supported by the kernel by passing in the NULL or the empty
++	 * string.
++	 */
++	ret = snprintf(path, len, "/proc/%d/ns%s%s", pid,
++		       !ns || strcmp(ns, "") == 0 ? "" : "/",
++		       !ns || strcmp(ns, "") == 0 ? "" : ns);
+ 	if (ret < 0 || (size_t)ret >= len)
+ 		return -1;
+ 
+-- 
+1.7.9.5
+
