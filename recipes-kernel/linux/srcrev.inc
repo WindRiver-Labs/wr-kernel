@@ -8,10 +8,12 @@ OVERRIDES =. "kb-${@d.getVar('KBRANCH', True).replace("/", "-")}:"
 # kernel-4.8.x branch entries
 SRCREV_machine_kb-master ?= "3b6474f96fa6f0cc1afc92254541f3e5fa8d87b1"
 SRCREV_machine_kb-standard-arm-versatile-926ejs ?= "36f0fcbe3601ce7e5572ecd3d887b0b9a87f5e6d"
+SRCREV_machine_kb-standard-axxiaarm ?= "fabcf9a039d5d8c21baa5edd640b319d75f5e59f"
 SRCREV_machine_kb-standard-base ?= "c0e327d404fa68a16263d20a35dd7c9d3dc63663"
 SRCREV_machine_kb-standard-bcm-587xx ?= "c6497d4e6f372287a5767e41c56f14f5ffc0dec1"
 SRCREV_machine_kb-standard-beaglebone ?= "c0e327d404fa68a16263d20a35dd7c9d3dc63663"
 SRCREV_machine_kb-standard-cav-octeontx ?= "065df2ccdc8544aeb16acac4a5ea11ea57ced2b2"
+SRCREV_machine_kb-standard-cgl-axxiaarm ?= "90d93e95381e681507627e21e1206b2420902bb9"
 SRCREV_machine_kb-standard-cgl-base ?= "62627f342f68b2080fc55a23bc1c389b5d710997"
 SRCREV_machine_kb-standard-cgl-cav-octeontx ?= "38b0e7b8c62eeb024315b7713ea3576148cce291"
 SRCREV_machine_kb-standard-cgl-intel-socfpga ?= "17a1a7a02e750b89ef4bc4e5f56e990552c6aeef"
@@ -35,6 +37,7 @@ SRCREV_machine_kb-standard-nxp-base ?= "c0e327d404fa68a16263d20a35dd7c9d3dc63663
 SRCREV_machine_kb-standard-nxp-sdk-2-0-base ?= "759404504026fff50b21eb006db3e2a039b172b5"
 SRCREV_machine_kb-standard-nxp-sdk-2-0-nxp-ls10xx ?= "36163f87b437ee953f43435f0543b0cad4403fe0"
 SRCREV_machine_kb-standard-nxp-sdk-2-0-nxp-t4xxx ?= "e8aa6fec239cb0d294b6d854f54a1f04d07ec8d3"
+SRCREV_machine_kb-standard-preempt-rt-axxiaarm ?= "c9b1712902dea7309ff9f36a404ac9e36e315023"
 SRCREV_machine_kb-standard-preempt-rt-base ?= "8d041e256cfccc4366f77411c6426ecfafda7065"
 SRCREV_machine_kb-standard-preempt-rt-bcm-587xx ?= "7598c00dabc027b7367b76235efa206e51378b56"
 SRCREV_machine_kb-standard-preempt-rt-cav-octeontx ?= "44120e1483481e0e9fb1b1ebd00d783765736d8e"
@@ -66,4 +69,4 @@ SRCREV_machine_kb-standard-xilinx-zynq ?= "d2dcaea848a37e7a692189ef48accec298953
 SRCREV_machine_kb-standard-xilinx-zynqmp ?= "2afec7f4c96bd57a8a98d5e13552bd2808c38057"
 
 # kernel-cache branch entry
-SRCREV_meta = "1dd7409234b2272815aa78b18704d4b5b1aa9f96"
+SRCREV_meta = "a6e74a5ac4ab38c97e7ce5fdc416a469d5595af8"
