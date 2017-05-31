@@ -32,6 +32,7 @@ FILES_${PN} = "/boot/*"
 ALLOW_EMPTY_${PN} = "1"
 INITRAMFS_BASE_NAME = "${KERNEL_IMAGETYPE}-initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
 INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
+INITRAMFS_EXT_NAME = "-${KERNEL_VERSION}"
 
 python __anonymous () {
     image = d.getVar('INITRAMFS_IMAGE', True)
@@ -48,14 +49,14 @@ do_install() {
 		for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
 			if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
 				install -d ${D}/boot
-				install -m 0644 ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${D}/boot/${INITRAMFS_IMAGE}-${MACHINE}.$img
+				install -m 0644 ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${D}/boot/${INITRAMFS_IMAGE}${INITRAMFS_EXT_NAME}.$img
 				break
 			fi
 		done
 	elif [ "x${INSTALL_BUNDLE}" = "x1" ] ; then
 		if [ -e "${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin" ]; then
 			install -d ${D}/boot
-			install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+			install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin ${D}/boot/${KERNEL_IMAGETYPE}-initramfs${INITRAMFS_EXT_NAME}
 		fi
 	fi
 }
@@ -65,14 +66,14 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 pkg_postinst_${PN} () {
 #!/bin/sh
     if [ "x${INSTALL_BUNDLE}" = "x1" ] ; then
-        update-alternatives --install /boot/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} /boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin 50101 || true
+        update-alternatives --install /boot/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} /boot/${KERNEL_IMAGETYPE}-initramfs${INITRAMFS_EXT_NAME} 50101 || true
     fi
 }
 
 pkg_prerm_${PN} () {
 #!/bin/sh
     if [ "x${INSTALL_BUNDLE}" = "x1" ] ; then
-        update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin || true
+        update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-initramfs${INITRAMFS_EXT_NAME} || true
     fi
 }
 
