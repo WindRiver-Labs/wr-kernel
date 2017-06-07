@@ -14,11 +14,9 @@ DEPENDS = "virtual/kernel"
 
 PROVIDES = "virtual/kernel-initramfs-image"
 
-inherit linux-kernel-base kernel-arch
+inherit kernelsrc kernel-arch
 
 do_populate_lic[depends] += "virtual/kernel:do_deploy"
-
-S = "${STAGING_KERNEL_DIR}"
 do_unpack[depends] += "virtual/kernel:do_deploy"
 
 B = "${WORKDIR}/${BPN}-${PV}"
