@@ -43,6 +43,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
 	file://CVE-2016-8649.patch \
 	file://default.lxc-net \
 	file://dnsmasq.lxc \
+	file://0001-lxc-sshd-mount-etc-init.d-only-if-it-exists.patch \
 	"
 
 SRC_URI[md5sum] = "28db4dbacf860ae742138c0ed8dbf14c"
