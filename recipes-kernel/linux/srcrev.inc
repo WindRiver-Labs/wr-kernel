@@ -8,13 +8,13 @@ OVERRIDES =. "kb-${@d.getVar('KBRANCH', True).replace("/", "-")}:"
 # kernel-4.8.x branch entries
 SRCREV_machine_kb-master ?= "1de4a7ade7e58cb64aebbf5394ee7448564dfef7"
 SRCREV_machine_kb-standard-arm-versatile-926ejs ?= "c00be219e8dd590d9551d486d77161094ad1efe9"
-SRCREV_machine_kb-standard-axxiaarm ?= "b2ba0b6841704a5488875d0a2868dba4733493e0"
+SRCREV_machine_kb-standard-axxiaarm ?= "cbe07119e3c1e27f377136ae9e70a1adc703017c"
 SRCREV_machine_kb-standard-base ?= "b5f8de0964125679f4a2f78e0407e1c979c450f3"
 SRCREV_machine_kb-standard-bcm-2xxx-rpi ?= "21cc19703d3b2bc5e4d27baf48e92d3554a402c8"
 SRCREV_machine_kb-standard-bcm-587xx ?= "7659b5b62472b5e22f6c11b2fadb0b9146abde4e"
 SRCREV_machine_kb-standard-beaglebone ?= "b5f8de0964125679f4a2f78e0407e1c979c450f3"
 SRCREV_machine_kb-standard-cav-octeontx ?= "748ff35f6b227c02ec4ca26547182834e34effc6"
-SRCREV_machine_kb-standard-cgl-axxiaarm ?= "f0ab87659f7a083989391a0e8a5ff2ccf7484fee"
+SRCREV_machine_kb-standard-cgl-axxiaarm ?= "d5094496b4fd8fe101d280c610fdf505f99140d5"
 SRCREV_machine_kb-standard-cgl-base ?= "b7194a385362371dc57fdcb0daea7fb09c332107"
 SRCREV_machine_kb-standard-cgl-cav-octeontx ?= "7957859ecc2037f7713b5f935329c3590e82dfc2"
 SRCREV_machine_kb-standard-cgl-intel-socfpga ?= "c417d839030311f5a0f219b411d21a23036f8e5b"
@@ -76,4 +76,4 @@ SRCREV_machine_kb-standard-xilinx-zynq ?= "bad69208c7ffac22b25261b0c25982a65e1e2
 SRCREV_machine_kb-standard-xilinx-zynqmp ?= "20fcd7d06fa53f088988162bce86ab4eb23a5ee4"
 
 # kernel-cache branch entry
-SRCREV_meta = "c6a08fd8a9f007a741459ccbad70191f1b9e83d1"
+SRCREV_meta = "e0c3e10d08f16609845dda8a1a22f51f5cec2917"
