@@ -23,6 +23,7 @@ SRCREV_machine_kb-standard-cgl-intel-x86-64 ?= "d1ed8f7748e86948d8c045976566e3ac
 SRCREV_machine_kb-standard-cgl-nxp-base ?= "1a22607975fbd6663d9809df88edfbeb610f2fa8"
 SRCREV_machine_kb-standard-cgl-nxp-sdk-2-0-base ?= "2bff619804bc2d95e270078554d877d6a92cfd54"
 SRCREV_machine_kb-standard-cgl-nxp-sdk-2-0-nxp-t4xxx ?= "477f5dca56a5e2d509168da7571d23a7ed985d35"
+SRCREV_machine_kb-standard-cgl-xilinx-zynq ?= "fd24d8a4c713b0248b21cc5928ba39df0460cdb3"
 SRCREV_machine_kb-standard-edgerouter ?= "0b8441869a5694c0ce6143c26a470c19399e7d59"
 SRCREV_machine_kb-standard-fsl-mpc8315e-rdb ?= "6aaef2bd55e311eeb7164626e19480f69376ad0b"
 SRCREV_machine_kb-standard-intel ?= "0b8441869a5694c0ce6143c26a470c19399e7d59"
