@@ -31,8 +31,8 @@ INSANE_SKIP_kernel-vmlinux += " textrel ldflags"
 INSANE_SKIP_kernel-image += " textrel ldflags"
 
 # Align TARGET_SUPPORTED_KTYPES with LINUX_KERNEL_TYPE
-TARGET_SUPPORTED_KTYPES ?= "standard"
-LINUX_KERNEL_TYPE ?= "standard"
+TARGET_SUPPORTED_KTYPES ??= "standard"
+LINUX_KERNEL_TYPE ??= "standard"
 
 # Use the raw toolchain for kernel and kernel devshell builds
 TARGET_RAW_PREFIX ?= "${TARGET_PREFIX}"
