@@ -11,7 +11,7 @@ SRCREV_machine_kb-standard-arm-versatile-926ejs ?= "07a15ac74e5f5348d8d4a4ce5372
 SRCREV_machine_kb-standard-axxiaarm ?= "94d89aaa670522fd99a445518a64ef6a321913de"
 SRCREV_machine_kb-standard-base ?= "51b2f730b9a054b91b7f9c21cca681cbbd33ade9"
 SRCREV_machine_kb-standard-bcm-2xxx-rpi ?= "c5fdd90395bdd4d6f19f44c10545c2996b5e8fed"
-SRCREV_machine_kb-standard-bcm-587xx ?= "8e415194d216706eb76c3e2b8986c0f96c29db20"
+SRCREV_machine_kb-standard-bcm-587xx ?= "2c0416b0c5e40c24fb366723ee8bc0309789fe21"
 SRCREV_machine_kb-standard-beaglebone ?= "51b2f730b9a054b91b7f9c21cca681cbbd33ade9"
 SRCREV_machine_kb-standard-cav-octeontx ?= "d9d95fd04bbc2dbc3a3a704e228485fcf125c471"
 SRCREV_machine_kb-standard-cgl-axxiaarm ?= "8c181cc65842f43b6b446a5590055b9b7c1b4aae"
@@ -49,7 +49,7 @@ SRCREV_machine_kb-standard-ovp-x86-kvm-guest ?= "90f831fa9322741bde00a3f10f1b210
 SRCREV_machine_kb-standard-preempt-rt-axxiaarm ?= "85748533b4e5258567d7eba41bbd9acd93da722f"
 SRCREV_machine_kb-standard-preempt-rt-base ?= "9e202d371efb1b9956ea84bbf9836583fd7ccdb1"
 SRCREV_machine_kb-standard-preempt-rt-bcm-2xxx-rpi ?= "5e3b6bf8f983bc7c840a4e3de9bc7eba903fc271"
-SRCREV_machine_kb-standard-preempt-rt-bcm-587xx ?= "7e8985f68cbd8ff6bdd678102abeede88cba777e"
+SRCREV_machine_kb-standard-preempt-rt-bcm-587xx ?= "7d2702f8278e757748aa0306b1ed19fb112fb8cf"
 SRCREV_machine_kb-standard-preempt-rt-cav-octeontx ?= "169392d9cddf3e51d55b5d343fc88a9e3c14010f"
 SRCREV_machine_kb-standard-preempt-rt-intel ?= "6f7fd205f04e8b8c442c61c7dc183c271591b93c"
 SRCREV_machine_kb-standard-preempt-rt-intel-socfpga ?= "5ea4397d6b70ffa196e6b5dd9578f0187ba76e30"
@@ -79,4 +79,4 @@ SRCREV_machine_kb-standard-xilinx-zynq ?= "647ce9e82524cb58b72380aae0897735e0434
 SRCREV_machine_kb-standard-xilinx-zynqmp ?= "05a57f14d304acc9d470044938caf45e67d20959"
 
 # kernel-cache branch entry
-SRCREV_meta = "63938e3f767198d1500406e17110fce949a174a2"
+SRCREV_meta = "16f04106bb21e3be05ed5773ed24781d1e89526e"
