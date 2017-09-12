@@ -127,7 +127,9 @@ do_extract_kernel_output[dirs] = "${EXTRACTDIR} ${B}"
 #
 do_extract_kernel_output() {
 	# Extract kernel image
-	install -m 0644 ${KERNEL_OUTPUT} ${EXTRACTDIR}
+	for type in ${KERNEL_IMAGETYPES} ; do
+		install -m 0644 ${KERNEL_OUTPUT_DIR}/$type ${EXTRACTDIR}
+	done
 
 	# Extract kernel modules and tar them together
 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
