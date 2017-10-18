@@ -70,12 +70,14 @@ SRCREV_machine_kb-standard-preempt-rt-nxp-sdk-2-0-sdk-2-0-1703-base ?= "02683df5
 SRCREV_machine_kb-standard-preempt-rt-nxp-sdk-2-0-sdk-2-0-1703-nxp-ls1046 ?= "a965886895dce27aecc6563aaa49f7f8730e66a9"
 SRCREV_machine_kb-standard-preempt-rt-rebase ?= "61b703665c77a3862111ea77dfe59d4525a5ff41"
 SRCREV_machine_kb-standard-preempt-rt-ti-66ak2xxx ?= "cdf0304d9e25556741fc08df122fd297c23eb10e"
+SRCREV_machine_kb-standard-preempt-rt-ti-am335x ?= "dac1d64ee8ad61bf39a59365ffb7d4786b18ff92"
 SRCREV_machine_kb-standard-preempt-rt-xilinx-zynq ?= "0d14479bf2231b2e83a17945cc4e8989a2d373e7"
 SRCREV_machine_kb-standard-preempt-rt-xilinx-zynqmp ?= "ab1ba28f87a110ee76184a78009b98d7162dfb1e"
 SRCREV_machine_kb-standard-qemuarm64 ?= "fc9498481df3d7a6b85a35d98a12c4f25c2985ce"
 SRCREV_machine_kb-standard-qemuppc ?= "fc9498481df3d7a6b85a35d98a12c4f25c2985ce"
 SRCREV_machine_kb-standard-rebase ?= "f2e1a370c7fe9e4add8d7a4658ee35580ad27289"
 SRCREV_machine_kb-standard-ti-66ak2xxx ?= "931cc8eebbf81aac613f4cd060ca329fb7b38e38"
+SRCREV_machine_kb-standard-ti-am335x ?= "679f27682f409bb552edf6e160b69d7f285859c7"
 SRCREV_machine_kb-standard-tiny-base ?= "fc9498481df3d7a6b85a35d98a12c4f25c2985ce"
 SRCREV_machine_kb-standard-tiny-common-pc ?= "fc9498481df3d7a6b85a35d98a12c4f25c2985ce"
 SRCREV_machine_kb-standard-tiny-intel ?= "fc9498481df3d7a6b85a35d98a12c4f25c2985ce"
@@ -85,4 +87,4 @@ SRCREV_machine_kb-standard-xilinx-zynq ?= "58fa2903301f2d592b79c8dc3c87a23d6015b
 SRCREV_machine_kb-standard-xilinx-zynqmp ?= "6ddad3554627f46d5f22d9fc4f14f71d38ad1e32"
 
 # kernel-cache branch entry
-SRCREV_meta = "df73395d307df3154eceb57cf0b16f2e51c92b75"
+SRCREV_meta = "b79bb44e7e4e57e70f28fb028665f26e70d54c7c"
