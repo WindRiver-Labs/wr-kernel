@@ -14,9 +14,11 @@ inherit allarch
 
 #S="${WORKDIR}/${BPN}-${BP}"
 
-SRC_URI = "http://ftp.slackware.com/pub/slackware/slackware-current/source/a/hwdata/${BP}.tar.xz"
-SRC_URI[md5sum] = "20c5cab3adffdac55a80d05b4290ae69"
-SRC_URI[sha256sum] = "aaf07f1f446ae818252128de56905c33c48da93cf548cb82dacc36d8728f3888"
+PV = "0.291+git${SRCPV}"
+SRCREV = "4bfbdcf5913d6dd53336d31b8035708075e6fdfa"
+SRC_URI = "git://github.com/vcrhonek/${BPN}.git"
+
+S = "${WORKDIR}/git"
 
 do_configure() {
      ${S}/configure
