@@ -87,4 +87,4 @@ SRCREV_machine_kb-standard-xilinx-zynq ?= "b8766b762ab4c80ee23441900faba0527743f
 SRCREV_machine_kb-standard-xilinx-zynqmp ?= "7ee011ce715814046e753ff1c243a03e7bfbad73"
 
 # kernel-cache branch entry
-SRCREV_meta = "b2799822ec9d1895ba62d0bfe19b161301bddd26"
+SRCREV_meta = "2dee8cf4ab15b00419638e952ff9e3fb172669cf"
