@@ -10,6 +10,7 @@ DEPENDS = "libgcc virtual/${TARGET_PREFIX}gcc"
 DEPENDS_append_qoriq-arm = " change-file-endianess-native dtc-native tcl-native"
 DEPENDS_append_qoriq-arm64 = " change-file-endianess-native dtc-native tcl-native"
 DEPENDS_append_qoriq-ppc = " boot-format-native"
+DEPENDS_append_nxp-ls1046 = " virtual/kernel"
 
 python () {
     if d.getVar("TCMODE", True) == "external-fsl":
