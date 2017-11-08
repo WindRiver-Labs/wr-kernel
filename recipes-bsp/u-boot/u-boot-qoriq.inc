@@ -11,6 +11,7 @@ DEPENDS_append_qoriq-arm = " change-file-endianess-native dtc-native tcl-native"
 DEPENDS_append_qoriq-arm64 = " change-file-endianess-native dtc-native tcl-native"
 DEPENDS_append_qoriq-ppc = " boot-format-native"
 DEPENDS_append_nxp-ls1046 = " virtual/kernel"
+DEPENDS_append_nxp-ls1012 = " virtual/kernel"
 
 python () {
     if d.getVar("TCMODE", True) == "external-fsl":
@@ -112,3 +113,4 @@ PACKAGES += "${PN}-images"
 FILES_${PN}-images += "/boot"
 
 COMPATIBLE_MACHINE_nxp-ls1046 = "nxp-ls1046"
+COMPATIBLE_MACHINE_nxp-ls1012 = "nxp-ls1012"
