@@ -27,6 +27,8 @@ SRCREV_machine_kb-standard-cgl-nxp-sdk-2-0-sdk-2-0-1703-base ?= "6381273f9052107
 SRCREV_machine_kb-standard-cgl-nxp-sdk-2-0-sdk-2-0-1703-nxp-ls1012 ?= "e0359607666ad165b3112153e53bdbe5ed0876cb"
 SRCREV_machine_kb-standard-cgl-nxp-sdk-2-0-sdk-2-0-1703-nxp-ls1046 ?= "c6743076b8c63f2553bae29979043f253760a588"
 SRCREV_machine_kb-standard-cgl-xilinx-zynq ?= "d82aac4c21a2b8c04e2436e9d1be3166005012c9"
+SRCREV_machine_kb-standard-cgl-xilinx-sdk-2017-01-base ?= "7be789a175cca66cbe3b0fbb64b7678fbe4505bf"
+SRCREV_machine_kb-standard-cgl-xilinx-sdk-2017-01-xilinx ?= "7be789a175cca66cbe3b0fbb64b7678fbe4505bf"
 SRCREV_machine_kb-standard-edgerouter ?= "74e8b163162501ab324bb63ac445bd5f6291ac65"
 SRCREV_machine_kb-standard-fsl-mpc8315e-rdb ?= "3aa62eebe09b0075067f98e2135a8bb486b6ff2b"
 SRCREV_machine_kb-standard-intel ?= "74e8b163162501ab324bb63ac445bd5f6291ac65"
@@ -76,6 +78,8 @@ SRCREV_machine_kb-standard-preempt-rt-ti-66ak2xxx ?= "c4d1dfb2a40a7125048ae4be39
 SRCREV_machine_kb-standard-preempt-rt-ti-am335x ?= "644ed35c6138e31238cbc4c5991fce2940e7ebc2"
 SRCREV_machine_kb-standard-preempt-rt-xilinx-zynq ?= "920444fea6a1ca0573072b7e8bc7b76dc5beea97"
 SRCREV_machine_kb-standard-preempt-rt-xilinx-zynqmp ?= "6ff77408422c6f0933d8d3d97b961151106a9bc6"
+SRCREV_machine_kb-standard-preempt-rt-xilinx-sdk-2017-01-base ?= "2ab497b6e75ca7ed1c1cb65a2f5f00619e8b5208"
+SRCREV_machine_kb-standard-preempt-rt-xilinx-sdk-2017-01-xilinx ?= "2ab497b6e75ca7ed1c1cb65a2f5f00619e8b5208"
 SRCREV_machine_kb-standard-qemuarm64 ?= "74e8b163162501ab324bb63ac445bd5f6291ac65"
 SRCREV_machine_kb-standard-qemuppc ?= "74e8b163162501ab324bb63ac445bd5f6291ac65"
 SRCREV_machine_kb-standard-rebase ?= "f2e1a370c7fe9e4add8d7a4658ee35580ad27289"
@@ -88,6 +92,8 @@ SRCREV_machine_kb-standard-tiny-intel-x86-32 ?= "65305657e32b14a9117da57f7265cd3
 SRCREV_machine_kb-standard-tiny-intel-x86-64 ?= "66394855686145e9008901377a3a39dd3671a157"
 SRCREV_machine_kb-standard-xilinx-zynq ?= "334130f689650eaa929f7910ea9d2d52ac757ed1"
 SRCREV_machine_kb-standard-xilinx-zynqmp ?= "4cb4f570956ccf5c420e9574a8c60b80c212ef4e"
+SRCREV_machine_kb-standard-xilinx-sdk-2017-01-base ?= "afd2b3394f8d0d401066389e4686189e4a4ed2ab"
+SRCREV_machine_kb-standard-xilinx-sdk-2017-01-xilinx ?= "afd2b3394f8d0d401066389e4686189e4a4ed2ab"
 
 # kernel-cache branch entry
-SRCREV_meta = "78f4286241113349808bbe20f591473808d279eb"
+SRCREV_meta = "19810849fe88d009c0abab65d3f5026e26f91916"
