@@ -99,4 +99,4 @@ SRCREV_machine_kb-standard-xilinx-sdk-2017-01-base ?= "029c8885a8561d6f36813ca01
 SRCREV_machine_kb-standard-xilinx-sdk-2017-01-xilinx-zynq ?= "93c91424c9f260a46888db14e0881b05f604b0d5"
 
 # kernel-cache branch entry
-SRCREV_meta = "9472bbc110999ab738bafdb4c1706144cbfd958f"
+SRCREV_meta = "fe684f5c1edbe4d7e3484d70093670eb0153b465"
