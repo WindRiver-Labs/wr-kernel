@@ -10,6 +10,7 @@ DEPENDS = "libgcc virtual/${TARGET_PREFIX}gcc"
 DEPENDS_append_qoriq-arm = " change-file-endianess-native dtc-native tcl-native"
 DEPENDS_append_qoriq-arm64 = " change-file-endianess-native dtc-native tcl-native"
 DEPENDS_append_qoriq-ppc = " boot-format-native"
+DEPENDS_append_aarch64 = " change-file-endianess-native dtc-native tcl-native"
 DEPENDS_append_nxp-ls1046 = " virtual/kernel"
 DEPENDS_append_nxp-ls1012 = " virtual/kernel"
 
@@ -40,7 +41,7 @@ EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
 
 LOCALVERSION = "${@d.getVar('SDK_VERSION', True).partition(' ')[0]}"
 
-do_compile_append_qoriq() {
+do_compile_append_aarch64() {
     unset i j k
     for config in ${UBOOT_MACHINE}; do
         i=`expr $i + 1`;
@@ -69,7 +70,7 @@ do_compile_append_qoriq() {
     unset i
 }
 
-do_install_qoriq() {
+do_install_aarch64() {
     cd ${S}
     install -d ${D}/boot
     unset i j
@@ -89,7 +90,7 @@ do_install_qoriq() {
     unset i
 }
 
-do_deploy_qoriq() {
+do_deploy_aarch64() {
     cd ${S}
     install -d ${DEPLOYDIR}
     unset i j

@@ -15,7 +15,7 @@ python () {
 SRC_URI = "git://git.freescale.com/ppc/sdk/u-boot.git;nobranch=1"
 SRCREV = "a06b20925c02ba3fa888a1f915ea7935084d8600"
 
-do_compile_append_qoriq() {
+do_compile_append_aarch64() {
     unset i j k
     for config in ${UBOOT_MACHINE}; do
         i=`expr $i + 1`;
