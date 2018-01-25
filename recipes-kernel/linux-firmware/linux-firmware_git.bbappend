@@ -13,6 +13,9 @@ do_install_append() {
 	install -m 0644 iwlwifi-5000-5.ucode ${D}${FWPATH}
 	install -m 0644 iwlwifi-8000C-13.ucode ${D}${FWPATH}
 	install -m 0644 iwlwifi-7265D-22.ucode ${D}${FWPATH}
+	install -m 0644 iwlwifi-7265D-29.ucode ${D}${FWPATH}
+	install -m 0644 rtlwifi/rtl8723bs_nic.bin ${D}${FWPATH}/rtlwifi
+	install -m 0644 rtlwifi/rtl8723bs_wowlan.bin ${D}${FWPATH}/rtlwifi
 	install -d ${D}${FWPATH}/intel
 	install -m 0644 intel/ibt-hw-37.7.10-fw-1.80.2.3.d.bseq ${D}${FWPATH}/intel
 	install -m 0644 intel/ibt-hw-37.8.10-fw-1.10.2.27.d.bseq ${D}${FWPATH}/intel
@@ -36,6 +39,9 @@ PACKAGES =+ "\
 	     ${PN}-iwlwifi-5000-5 \
 	     ${PN}-iwlwifi-8000c-13 \
 	     ${PN}-iwlwifi-7265d-22 \
+	     ${PN}-iwlwifi-7265d-29 \
+	     ${PN}-rtl8723bs_nic \
+	     ${PN}-rtl8723bs_wowlan \
 	     ${PN}-ibt-hw-37.7.10-fw-1.80.2.3.d \
 	     ${PN}-ibt-hw-37.8.10-fw-1.10.2.27.d \
 	     ${PN}-ibt-hw-37.8.10-fw-1.10.3.11.e \
@@ -92,6 +98,21 @@ FILES_${PN}-iwlwifi-8000c-13 = " \
 RDEPENDS_${PN}-iwlwifi-7265d-22 = "${PN}-iwlwifi-license"
 FILES_${PN}-iwlwifi-7265d-22 = " \
   ${FWPATH}/iwlwifi-7265D-22.ucode \
+"
+
+RDEPENDS_${PN}-iwlwifi-7265d-29 = "${PN}-iwlwifi-license"
+FILES_${PN}-iwlwifi-7265d-29 = " \
+  ${FWPATH}/iwlwifi-7265D-29.ucode \
+"
+
+RDEPENDS_${PN}-rtl8723bs_nic = "${PN}-iwlwifi-license"
+FILES_${PN}-rtl8723bs_nic = " \
+  ${FWPATH}/rtlwifi/rtl8723bs_nic.bin \
+"
+
+RDEPENDS_${PN}-rtl8723bs_wowlan = "${PN}-iwlwifi-license"
+FILES_${PN}-rtl8723bs_wowlan = " \
+  ${FWPATH}/rtlwifi/rtl8723bs_wowlan.bin \
 "
 
 RDEPENDS_${PN}-ibt-hw-37.7.10-fw-1.80.2.3.d = "${PN}-iwlwifi-license"
