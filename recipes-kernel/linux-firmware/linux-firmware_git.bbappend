@@ -40,8 +40,8 @@ PACKAGES =+ "\
 	     ${PN}-iwlwifi-8000c-13 \
 	     ${PN}-iwlwifi-7265d-22 \
 	     ${PN}-iwlwifi-7265d-29 \
-	     ${PN}-rtl8723bs_nic \
-	     ${PN}-rtl8723bs_wowlan \
+	     ${PN}-rtl8723bs-nic \
+	     ${PN}-rtl8723bs-wowlan \
 	     ${PN}-ibt-hw-37.7.10-fw-1.80.2.3.d \
 	     ${PN}-ibt-hw-37.8.10-fw-1.10.2.27.d \
 	     ${PN}-ibt-hw-37.8.10-fw-1.10.3.11.e \
@@ -105,13 +105,13 @@ FILES_${PN}-iwlwifi-7265d-29 = " \
   ${FWPATH}/iwlwifi-7265D-29.ucode \
 "
 
-RDEPENDS_${PN}-rtl8723bs_nic = "${PN}-iwlwifi-license"
-FILES_${PN}-rtl8723bs_nic = " \
+RDEPENDS_${PN}-rtl8723bs-nic = "${PN}-iwlwifi-license"
+FILES_${PN}-rtl8723bs-nic = " \
   ${FWPATH}/rtlwifi/rtl8723bs_nic.bin \
 "
 
-RDEPENDS_${PN}-rtl8723bs_wowlan = "${PN}-iwlwifi-license"
-FILES_${PN}-rtl8723bs_wowlan = " \
+RDEPENDS_${PN}-rtl8723bs-wowlan = "${PN}-iwlwifi-license"
+FILES_${PN}-rtl8723bs-wowlan = " \
   ${FWPATH}/rtlwifi/rtl8723bs_wowlan.bin \
 "
 
