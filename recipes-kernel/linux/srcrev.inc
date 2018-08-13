@@ -7,6 +7,7 @@ OVERRIDES =. "kb-${@d.getVar('KBRANCH', True).replace("/", "-")}:"
 
 # kernel-4.8.x branch entries
 SRCREV_machine_kb-master ?= "e56c91c9785cb3bd91cae064b03299a9340b9f58"
+SRCREV_machine_kb-standard-amd-x86 ?= "1e6828afa001432cb44673c8d0d70718e3ba76cf"
 SRCREV_machine_kb-standard-arm-versatile-926ejs ?= "af4993e2691def6c0dbe1499ce2a9021e8911a85"
 SRCREV_machine_kb-standard-axxiaarm ?= "331009908d168c3aea61a5c05f3f27ac4e794f8b"
 SRCREV_machine_kb-standard-base ?= "1e6828afa001432cb44673c8d0d70718e3ba76cf"
@@ -14,6 +15,7 @@ SRCREV_machine_kb-standard-bcm-2xxx-rpi ?= "03933d32af02acc5960a6a2241ed4d4c6254
 SRCREV_machine_kb-standard-bcm-587xx ?= "8f1886fe8ee25f867644cde14544e18790be3a85"
 SRCREV_machine_kb-standard-beaglebone ?= "1e6828afa001432cb44673c8d0d70718e3ba76cf"
 SRCREV_machine_kb-standard-cav-octeontx ?= "6ffdb81184b5f8028e64f8aebb758cfbc3e24979"
+SRCREV_machine_kb-standard-cgl-amd-x86 ?= "ea5e7e67945d7abae362a876528899a7bef0c00a"
 SRCREV_machine_kb-standard-cgl-axxiaarm ?= "ca2b0ce3e010b42345f8ba11cc7ce1ff8defeec3"
 SRCREV_machine_kb-standard-cgl-base ?= "ea5e7e67945d7abae362a876528899a7bef0c00a"
 SRCREV_machine_kb-standard-cgl-cav-octeontx ?= "83ec9a1c0d90b2f806af3782a89683b464ce0449"
@@ -57,6 +59,7 @@ SRCREV_machine_kb-standard-ovp-qemux86 ?= "0f62630c1ccd1cf7f224d74dbb29e304bc077
 SRCREV_machine_kb-standard-ovp-qemux86-64 ?= "21bcfd8f2e0beb92b2117bca3aa2faa44fb42439"
 SRCREV_machine_kb-standard-ovp-x86-64-kvm-guest ?= "309f53086fbe92aba26cf4054f1d16e16d55a0e7"
 SRCREV_machine_kb-standard-ovp-x86-kvm-guest ?= "80e8231c13d9ba31bdd606a3aa19b293dccc05b4"
+SRCREV_machine_kb-standard-preempt-rt-amd-x86 ?= "f17209a08f44cf35c84680c5c0c06dad234cd5c9"
 SRCREV_machine_kb-standard-preempt-rt-axxiaarm ?= "7766b892e63261838bff9431330614d55f7fa695"
 SRCREV_machine_kb-standard-preempt-rt-base ?= "f17209a08f44cf35c84680c5c0c06dad234cd5c9"
 SRCREV_machine_kb-standard-preempt-rt-bcm-2xxx-rpi ?= "03c7e7868c9c90acf0c7e6bd110317bbdfc1da2a"
@@ -92,6 +95,7 @@ SRCREV_machine_kb-standard-qemuppc ?= "1e6828afa001432cb44673c8d0d70718e3ba76cf"
 SRCREV_machine_kb-standard-rebase ?= "b3b4721c63e27f0e58cf448ae8ae4ac7f663526c"
 SRCREV_machine_kb-standard-ti-66ak2xxx ?= "7bdb23bde2fae4bd19bee0abafdc18a46d5408ab"
 SRCREV_machine_kb-standard-ti-am335x ?= "068beb001759c94fa5243159cdd81b77ee7a535a"
+SRCREV_machine_kb-standard-tiny-amd-x86 ?= "1e6828afa001432cb44673c8d0d70718e3ba76cf"
 SRCREV_machine_kb-standard-tiny-base ?= "1e6828afa001432cb44673c8d0d70718e3ba76cf"
 SRCREV_machine_kb-standard-tiny-common-pc ?= "1e6828afa001432cb44673c8d0d70718e3ba76cf"
 SRCREV_machine_kb-standard-tiny-intel ?= "1e6828afa001432cb44673c8d0d70718e3ba76cf"
@@ -107,4 +111,4 @@ SRCREV_machine_kb-standard-xilinx-sdk-2017-01-xilinx-zynq ?= "30b9e34b1af09f0bd6
 SRCREV_machine_kb-standard-xilinx-sdk-2017-01-xilinx-zynqmp ?= "9349be4c9b068c5fb7b778227b32987e8609dfac"
 
 # kernel-cache branch entry
-SRCREV_meta = "60066b68e3f7173bcffa95f388acd758802b6638"
+SRCREV_meta = "063137edd81935a0135c13c703369bedd53de12e"
