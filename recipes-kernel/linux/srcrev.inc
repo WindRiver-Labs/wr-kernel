@@ -111,4 +111,4 @@ SRCREV_machine_kb-standard-xilinx-sdk-2017-01-xilinx-zynq ?= "231704c5dca2350e46
 SRCREV_machine_kb-standard-xilinx-sdk-2017-01-xilinx-zynqmp ?= "369ec14d1fad840eb5bc630f61083e75d5559418"
 
 # kernel-cache branch entry
-SRCREV_meta = "075ecedc75f521141dd842e0ee36d04a739d745b"
+SRCREV_meta = "db9cf4846bcf5d41c35e1fd3f08eb40a06b9345c"
