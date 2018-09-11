@@ -23,4 +23,4 @@ QB_KERNEL_CMDLINE_APPEND_append = " clocksource=pit console=ttyS0,115200"
 
 IMAGE_FSTYPES += "wic wic.bmap"
 WKS_FILE ?= "directdisk.wks"
-do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+do_image_wic[depends] += "${MLPREFIX}syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
