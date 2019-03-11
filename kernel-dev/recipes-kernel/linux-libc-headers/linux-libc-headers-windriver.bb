@@ -4,6 +4,7 @@
 require recipes-kernel/linux-libc-headers/linux-libc-headers.inc
 
 PROVIDES = "linux-libc-headers"
+RPROVIDES_${PN}-dev = "linux-libc-headers-dev"
 
 PV = "4.8"
 
